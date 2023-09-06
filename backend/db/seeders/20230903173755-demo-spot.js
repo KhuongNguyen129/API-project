@@ -11,6 +11,7 @@ module.exports = {
     await Spot.bulkCreate(
       [
         {
+          ownerId: 2,
           address: "700 Hwy. 2",
           city: "Leavenworth",
           state: "WA",
@@ -22,6 +23,7 @@ module.exports = {
           price: 299.99,
         },
         {
+          ownerId: 3,
           address: "400 Broad St",
           city: "Seattle",
           state: "WA",
@@ -34,6 +36,7 @@ module.exports = {
           price: 39.99,
         },
         {
+          ownerId: 1,
           address: "1531 Western Ave",
           city: "Seattle",
           state: "WA",

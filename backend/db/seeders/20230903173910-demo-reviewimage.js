@@ -14,11 +14,11 @@ module.exports = {
         url: "seattle.com",
       },
       {
-        reviewId: 1,
+        reviewId: 2,
         url: "SpaceNeedle.com",
       },
       {
-        reviewId: 1,
+        reviewId: 3,
         url: "market.com",
       },
     ]);

@@ -182,6 +182,7 @@ router.get("/current", requireAuth, async (req, res) => {
   });
 
   findPreviewImageURL(spotLists);
+  console.log(spotLists);
   return res.json(spotLists);
 });
 
@@ -224,6 +225,7 @@ router.post("/", requireAuth, validateCreateSpot, async (req, res) => {
     req.body;
 
   const spots = await Spot.create({
+    ownerId: req.user.id,
     address,
     city,
     state,
@@ -235,9 +237,8 @@ router.post("/", requireAuth, validateCreateSpot, async (req, res) => {
     price,
   });
 
-  const owner = { ...spots.toJSON(), ownerId: req.user.id };
   res.status(201);
-  return res.json(owner);
+  return res.json(spots);
 });
 
 //Add an Image to a Spot based on the Spot's id
@@ -254,12 +255,15 @@ router.post("/:spotId/images", requireAuth, async (req, res) => {
         url,
         preview,
       });
-
+      res.status(200);
       return res.json({
         id: image.id,
         url: image.url,
         preview: image.preview,
       });
+    } else {
+      res.status(403);
+      return res.json({ message: "Forbidden" });
     }
   }
 });

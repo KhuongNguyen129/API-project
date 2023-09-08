@@ -3,11 +3,11 @@ const router = express.Router();
 const { Review, ReviewImage } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
 
-router.get("/", async (req, res) => {
-  const image = await ReviewImage.findAll();
+// router.get("/", async (req, res) => {
+//   const image = await ReviewImage.findAll();
 
-  return res.json(image);
-});
+//   return res.json(image);
+// });
 
 router.delete("/:imageId", requireAuth, async (req, res) => {
   const reviewImage = await ReviewImage.findByPk(req.params.imageId);
@@ -22,7 +22,7 @@ router.delete("/:imageId", requireAuth, async (req, res) => {
   if (req.user.id !== review.userId) {
     res.status(403);
     res.json({
-      message: "You are not a current user",
+      message: "Forbidden",
     });
   }
   await reviewImage.destroy();

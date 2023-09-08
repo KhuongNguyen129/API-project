@@ -20,7 +20,7 @@ router.delete("/:imageId", requireAuth, async (req, res) => {
   if (!spot || req.user.id !== spot.ownerId) {
     res.status(403);
     res.json({
-      message: "You are not a current user",
+      message: "Forbidden",
     });
   }
   await image.destroy();

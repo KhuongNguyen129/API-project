@@ -104,7 +104,7 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
   });
 
   res.status(200);
-  res.json(newImage);
+  return res.json(newImage);
 });
 
 // Edit a Review
@@ -125,7 +125,7 @@ router.put(
       stars,
     });
     res.status(200);
-    res.json(oneReview);
+    return res.json(oneReview);
   }
 );
 
@@ -138,7 +138,7 @@ router.delete("/:reviewId", async (req, res) => {
   }
   await review.destroy();
   res.status(200);
-  res.json({
+  return res.json({
     message: "Successfully deleted",
   });
 });

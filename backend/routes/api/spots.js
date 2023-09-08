@@ -214,7 +214,7 @@ router.get("/:spotId", requireAuth, async (req, res) => {
 
   findAvg(owner);
 
-  res.json(owner);
+  return res.json(owner);
 });
 
 //Create a Spot
@@ -237,7 +237,7 @@ router.post("/", requireAuth, validateCreateSpot, async (req, res) => {
 
   const owner = { ...spots.toJSON(), ownerId: req.user.id };
   res.status(201);
-  res.json(owner);
+  return res.json(owner);
 });
 
 //Add an Image to a Spot based on the Spot's id
@@ -285,7 +285,7 @@ router.put("/:spotId", requireAuth, validateCreateSpot, async (req, res) => {
     price,
   });
   res.status(200);
-  res.json(spot);
+  return res.json(spot);
 });
 
 //Delete a Spot
@@ -295,7 +295,7 @@ router.delete("/:spotId", requireAuth, async (req, res) => {
   notFoundError(spot, res);
   await spot.destroy();
   res.status(200);
-  res.json({
+  return res.json({
     message: "Successfully deleted",
   });
 });
@@ -321,7 +321,7 @@ router.get("/:spotId/reviews", async (req, res) => {
   });
 
   res.status(200);
-  res.json(reviews);
+  return res.json(reviews);
 });
 
 const validateCreateReview = [
@@ -359,7 +359,7 @@ router.post(
         stars,
       });
       res.status(201);
-      res.json(newReview);
+      return res.json(newReview);
     }
   }
 );
@@ -410,7 +410,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
 
   if (!newStartDate || !newEndDate || newStartDate >= newEndDate) {
     res.status(400);
-    res.json({
+    return res.json({
       message: "Bad Request",
       errors: {
         endDate: "endDate cannot be on or before startDate",
@@ -449,7 +449,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
   });
 
   res.status(200);
-  res.json(newBooking);
+  return res.json(newBooking);
 });
 
 module.exports = router;

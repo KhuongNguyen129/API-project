@@ -14,20 +14,20 @@ router.delete("/:imageId", requireAuth, async (req, res) => {
 
   if (!reviewImage) {
     res.status(404);
-    res.json({
+    return res.json({
       message: "Review Image  couldn't be found",
     });
   }
   const review = await Review.findByPk(reviewImage.reviewId);
   if (req.user.id !== review.userId) {
     res.status(403);
-    res.json({
+    return res.json({
       message: "Forbidden",
     });
   }
   await reviewImage.destroy();
   res.status(200);
-  res.json({
+  return res.json({
     message: "Successfully deleted",
   });
 });

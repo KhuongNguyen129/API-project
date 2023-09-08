@@ -71,7 +71,7 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
       },
     };
     res.status(400);
-    res.json(message);
+    return res.json(message);
   }
 
   const alreadyBooking = await Booking.findOne({
@@ -112,7 +112,7 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
     });
 
     res.status(200);
-    res.json(booking);
+    return res.json(booking);
   }
 });
 
@@ -141,7 +141,7 @@ router.delete("/:bookingId", requireAuth, async (req, res) => {
   }
   await booking.destroy();
   res.status(200);
-  res.json({
+  return res.json({
     message: "Successfully deleted",
   });
 });

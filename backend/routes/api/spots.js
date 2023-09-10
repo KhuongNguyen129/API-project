@@ -528,7 +528,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
   return res.json({
     ...newBooking.toJSON(),
     startDate: convertOnlyDate(newBooking.startDate),
-    endDate: convertOnlyDate(newBooking.startDate),
+    endDate: convertOnlyDate(newBooking.endDate),
     createdAt: convertDateFormat(newBooking.createdAt),
     updatedAt: convertDateFormat(newBooking.updatedAt),
   });

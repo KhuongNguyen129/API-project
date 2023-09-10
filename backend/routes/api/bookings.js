@@ -52,7 +52,7 @@ router.get("/current", requireAuth, async (req, res) => {
     Bookings: bookingLists.map((oneBooking) => ({
       ...oneBooking,
       startDate: convertOnlyDate(oneBooking.startDate),
-      endDate: convertOnlyDate(oneBooking.startDate),
+      endDate: convertOnlyDate(oneBooking.endDate),
       createdAt: convertDateFormat(oneBooking.createdAt),
       updatedAt: convertDateFormat(oneBooking.updatedAt),
     })),
@@ -114,7 +114,7 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
   }
 
   const date = new Date();
-  if (date > newEndDate) {
+  if (date > booking.endDate) {
     res.status(403);
     return res.json({
       message: "Past bookings can't be modified",
@@ -123,15 +123,15 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
 
   if (booking.userId === req.user.id) {
     await booking.update({
-      startDate: startDate,
-      endDate: endDate,
+      startDate,
+      endDate,
     });
 
     res.status(200);
     return res.json({
       ...booking.toJSON(),
       startDate: convertOnlyDate(booking.startDate),
-      endDate: convertOnlyDate(booking.startDate),
+      endDate: convertOnlyDate(booking.endDate),
       createdAt: convertDateFormat(booking.createdAt),
       updatedAt: convertDateFormat(booking.updatedAt),
     });
@@ -145,13 +145,13 @@ router.delete("/:bookingId", requireAuth, async (req, res) => {
     res.status(404);
     return res.json({ message: "Booking couldn't be found" });
   }
-  if (booking.userId === req.user.id) {
-    const spot = await Spot.findByPk(booking.spotId);
-    if (spot.ownerId !== req.user.id) {
-      res.status(403);
-      return res.json({ message: "Forbidden" });
-    }
-  } else {
+  if (booking.userId !== req.user.id) {
+    res.status(403);
+    return res.json({ message: "Forbidden" });
+  }
+
+  const spot = await Spot.findByPk(req.user.id);
+  if (spot.ownerId !== req.user.id) {
     res.status(403);
     return res.json({ message: "Forbidden" });
   }

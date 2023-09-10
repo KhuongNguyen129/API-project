@@ -76,7 +76,6 @@ router.get("/current", requireAuth, async (req, res) => {
 
   res.status(200);
   return res.json({
-    reviewLists,
     Reviews: reviewLists.map((review) => ({
       ...review,
       createdAt: convertDateFormat(review.createdAt),

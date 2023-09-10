@@ -10,7 +10,7 @@ const {
 const { requireAuth } = require("../../utils/auth");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
-const convertDateFormat = require("./date-convert");
+const { convertDateFormat } = require("./date-convert");
 
 const validateCreateReview = [
   check("review")

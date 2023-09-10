@@ -26,12 +26,12 @@ const validateCreateSpot = [
   check("lat")
     .exists()
     .isNumeric()
-    .isInt({ min: -500, max: 500 })
+    .isFloat({ min: -500, max: 500 })
     .withMessage("Latitude is not valid"),
   check("lng")
     .exists()
     .isNumeric()
-    .isInt({ min: -800, max: 900 })
+    .isFloat({ min: -800, max: 900 })
     .withMessage("Longitude is not valid"),
   check("name")
     .exists({ checkFalsy: true })
@@ -190,7 +190,7 @@ router.get("/current", requireAuth, async (req, res) => {
   spotLists.forEach((spot) => {
     findAvg(spot);
   });
-  console.log(...spotLists);
+
   findPreviewImageURL(spotLists);
 
   return res.json({

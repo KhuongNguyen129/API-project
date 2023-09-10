@@ -36,7 +36,8 @@ router.post("/", validateSignup, async (req, res) => {
 
   const err = validationResult(req);
   if (!err.isEmpty()) {
-    return res.status(400).json({
+    res.status(400);
+    return res.json({
       message: "Bad Request",
       errors: err.array().reduce((acc, error) => {
         acc[error.param] = error.msg;
@@ -44,24 +45,33 @@ router.post("/", validateSignup, async (req, res) => {
       }, {}),
     });
   }
+  const existingEmail = await User.findOne({
+    where: {
+      email,
+    },
+  });
 
-  const existingEmail = await User.findOne({ where: { email } });
-  if (existingEmail) {
-    return res.status(500).json({
-      message: "User already exists",
-      errors: {
-        email: "User with that email already exists",
-      },
-    });
+  const existingUserName = await User.findOne({
+    where: {
+      username,
+    },
+  });
+
+  let errors = {};
+
+  if (existingUserName) {
+    errors.username = "Username already exists";
   }
 
-  const existingUserName = await User.findOne({ where: { username } });
-  if (existingUserName) {
-    return res.status(500).json({
-      message: "User already exists",
-      errors: {
-        username: "User with that username already exists",
-      },
+  if (existingEmail) {
+    errors.email = "User with that email already exists";
+  }
+
+  if (Object.keys(errors).length > 0) {
+    res.status(500);
+    return res.json({
+      message: "Validation error",
+      errors,
     });
   }
 

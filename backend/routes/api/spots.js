@@ -87,7 +87,7 @@ const findAvg = (spot) => {
   });
   spot.avgRating /= spot.Reviews.length;
 
-  if (!spot.avgRating) spot.avgRating = "No average rating found.";
+  if (!spot.avgRating) spot.avgRating = "No average rating found";
   delete spot.Reviews;
 };
 
@@ -97,7 +97,7 @@ const findPreviewImageURL = (spotLists) => {
       if (image.preview) spotImage.previewImage = image.url;
     });
 
-    if (!spotImage.previewImage) spotImage.previewImage = "No URL found.";
+    if (!spotImage.previewImage) spotImage.previewImage = "No URL found";
     delete spotImage.SpotImages;
   });
 };
@@ -221,7 +221,7 @@ router.get("/:spotId", requireAuth, async (req, res) => {
   delete owner.User;
 
   owner.numReviews = owner.Reviews.length;
-  if (!owner.numReviews) owner.numReviews = "No Reviews found.";
+  if (!owner.numReviews) owner.numReviews = "No Reviews found";
 
   findAvg(owner);
 

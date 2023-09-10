@@ -51,6 +51,8 @@ router.get("/current", requireAuth, async (req, res) => {
   return res.json({
     Bookings: bookingLists.map((oneBooking) => ({
       ...oneBooking,
+      startDate: convertOnlyDate(oneBooking.startDate),
+      endDate: convertOnlyDate(oneBooking.startDate),
       createdAt: convertDateFormat(oneBooking.createdAt),
       updatedAt: convertDateFormat(oneBooking.updatedAt),
     })),

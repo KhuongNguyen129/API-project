@@ -17,6 +17,12 @@ const validateSignup = [
     .isLength({ min: 4 })
     .withMessage("Please provide a username with at least 4 characters."),
   check("username").not().isEmail().withMessage("Username cannot be an email."),
+  check("firstName")
+    .exists({ checkFalsy: true })
+    .withMessage("First Name is required"),
+  check("lastName")
+    .exists({ checkFalsy: true })
+    .withMessage("Last Name is required"),
   check("password")
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
@@ -27,6 +33,38 @@ const validateSignup = [
 // Sign up
 router.post("/", validateSignup, async (req, res) => {
   const { email, firstName, lastName, password, username } = req.body;
+
+  const err = validationResult(req);
+  if (!err.isEmpty()) {
+    return res.status(400).json({
+      message: "Bad Request",
+      errors: err.array().reduce((acc, error) => {
+        acc[error.param] = error.msg;
+        return acc;
+      }, {}),
+    });
+  }
+
+  const existingEmail = await User.findOne({ where: { email } });
+  if (existingEmail) {
+    return res.status(500).json({
+      message: "User already exists",
+      errors: {
+        email: "User with that email already exists",
+      },
+    });
+  }
+
+  const existingUserName = await User.findOne({ where: { username } });
+  if (existingUserName) {
+    return res.status(500).json({
+      message: "User already exists",
+      errors: {
+        username: "User with that username already exists",
+      },
+    });
+  }
+
   const hashedPassword = bcrypt.hashSync(password);
   const user = await User.create({
     email,

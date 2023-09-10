@@ -23,8 +23,16 @@ const validateCreateSpot = [
   check("country")
     .exists({ checkFalsy: true })
     .withMessage("Country is required"),
-  check("lat").exists().isNumeric().withMessage("Latitude is not valid"),
-  check("lng").exists().isNumeric().withMessage("Longitude is not valid"),
+  check("lat")
+    .exists()
+    .isNumeric()
+    .isInt({ min: -500, max: 500 })
+    .withMessage("Latitude is not valid"),
+  check("lng")
+    .exists()
+    .isNumeric()
+    .isInt({ min: -800, max: 900 })
+    .withMessage("Longitude is not valid"),
   check("name")
     .exists({ checkFalsy: true })
     .isLength({ min: 3, max: 49 })
@@ -50,22 +58,22 @@ const validateQuery = [
   check("maxLat")
     .optional()
     .isNumeric()
-    .isInt({ min: -500, max: 500 })
+    .isInt({ max: 500 })
     .withMessage("Maximum latitude is invalid"),
   check("minLat")
     .optional()
     .isNumeric()
-    .isInt({ min: -500, max: 500 })
+    .isInt({ min: -500 })
     .withMessage("Minimum latitude is invalid"),
   check("maxLng")
     .optional()
     .isNumeric()
-    .isInt({ min: -900, max: 900 })
+    .isInt({ max: 900 })
     .withMessage("Maximum longitude is invalid"),
   check("minLat")
     .optional()
     .isNumeric()
-    .isInt({ min: -800, max: 800 })
+    .isInt({ min: -800 })
     .withMessage("Minimum longitude is invalid"),
   check("minPrice")
     .optional()
@@ -74,7 +82,7 @@ const validateQuery = [
     .withMessage("Minimum price must be greater than or equal to 0"),
   check("maxPrice")
     .optional()
-    .isInt({ min: 0 })
+    .isInt({ min: 100000 })
     .isNumeric()
     .withMessage("Maximum price must be greater than or equal to 0"),
   handleValidationErrors,

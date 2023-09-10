@@ -17,7 +17,13 @@ router.delete("/:imageId", requireAuth, async (req, res) => {
     });
   }
   const spot = await Spot.findByPk(image.spotId);
-  if (!spot || req.user.id !== spot.ownerId) {
+  if (!spot) {
+    res.status(404);
+    return res.json({
+      message: "Spot Image couldn't be found",
+    });
+  }
+  if (req.user.id !== spot.ownerId) {
     res.status(403);
     return res.json({
       message: "Forbidden",

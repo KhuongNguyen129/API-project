@@ -35,6 +35,7 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    return queryInterface.dropTable("Reviews");
+    options.tableName = "Reviews";
+    return queryInterface.dropTable(options);
   },
 };

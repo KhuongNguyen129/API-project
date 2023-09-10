@@ -12,6 +12,7 @@ const { requireAuth } = require("../../utils/auth");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 const { Op } = require("sequelize");
+const { convertDateFormat, convertOnlyDate } = require("./date-convert");
 
 const validateCreateSpot = [
   check("address")
@@ -22,24 +23,17 @@ const validateCreateSpot = [
   check("country")
     .exists({ checkFalsy: true })
     .withMessage("Country is required"),
-  check("lat")
-    .exists({ checkFalsy: true })
-    .isFloat()
-    .withMessage("Latitude is not valid"),
-  check("lng")
-    .exists({ checkFalsy: true })
-    .isFloat()
-    .withMessage("Longitude is not valid"),
+  check("lat").exists().isNumeric().withMessage("Latitude is not valid"),
+  check("lng").exists().isNumeric().withMessage("Longitude is not valid"),
   check("name")
     .exists({ checkFalsy: true })
-    .isLength({ max: 49 })
+    .isLength({ min: 3, max: 49 })
     .withMessage("Name must be less than 50 characters"),
   check("description")
     .exists({ checkFalsy: true })
     .withMessage("Description is required"),
   check("price")
     .exists({ checkFalsy: true })
-    .isFloat()
     .withMessage("Price per day is required"),
   handleValidationErrors,
 ];
@@ -111,8 +105,15 @@ const findPreviewImageURL = (spotLists) => {
 const notFoundError = (spot, res) => {
   if (!spot) {
     res.status(404);
-    return res.json({ message: "Spot couldn't be found" });
+    res.json({ message: "Spot couldn't be found" });
+    return true;
   }
+  return false;
+};
+
+const forbiddenError = (res) => {
+  res.status(403);
+  return res.json({ message: "Forbidden" });
 };
 
 //Get all Spots
@@ -150,13 +151,15 @@ router.get("/", validateQuery, async (req, res) => {
 
   findPreviewImageURL(spotLists);
 
-  const validate = {
-    spots: spotLists,
+  return res.json({
+    Spots: spotLists.map((spot) => ({
+      ...spot,
+      createdAt: convertDateFormat(spot.createdAt),
+      updatedAt: convertDateFormat(spot.updatedAt),
+    })),
     page,
     size,
-  };
-
-  return res.json(validate);
+  });
 });
 
 //Get all Spots owned by the Current User
@@ -174,16 +177,21 @@ router.get("/current", requireAuth, async (req, res) => {
     ],
   });
 
-  const spotLists = [];
-  spots.forEach((spot) => spotLists.push(spot.toJSON()));
+  const spotLists = spots.map((spot) => spot.toJSON());
 
   spotLists.forEach((spot) => {
     findAvg(spot);
   });
-
+  console.log(...spotLists);
   findPreviewImageURL(spotLists);
-  console.log(spotLists);
-  return res.json(spotLists);
+
+  return res.json({
+    Spots: spotLists.map((spot) => ({
+      ...spot,
+      createdAt: convertDateFormat(spot.createdAt),
+      updatedAt: convertDateFormat(spot.updatedAt),
+    })),
+  });
 });
 
 //Get details of a Spot from an id
@@ -205,7 +213,9 @@ router.get("/:spotId", requireAuth, async (req, res) => {
     ],
   });
 
-  notFoundError(spots, res);
+  if (notFoundError(spots, res)) {
+    return;
+  }
 
   const owner = { ...spots.toJSON(), Owner: spots.User };
   delete owner.User;
@@ -215,7 +225,11 @@ router.get("/:spotId", requireAuth, async (req, res) => {
 
   findAvg(owner);
 
-  return res.json(owner);
+  return res.json({
+    ...owner,
+    createdAt: convertDateFormat(owner.createdAt),
+    updatedAt: convertDateFormat(owner.updatedAt),
+  });
 });
 
 //Create a Spot
@@ -238,14 +252,20 @@ router.post("/", requireAuth, validateCreateSpot, async (req, res) => {
   });
 
   res.status(201);
-  return res.json(spots);
+  return res.json({
+    ...spots.toJSON(),
+    createdAt: convertDateFormat(spots.createdAt),
+    updatedAt: convertDateFormat(spots.updatedAt),
+  });
 });
 
 //Add an Image to a Spot based on the Spot's id
 
 router.post("/:spotId/images", requireAuth, async (req, res) => {
   const userSpot = await Spot.findByPk(req.params.spotId);
-  notFoundError(userSpot, res);
+  if (notFoundError(userSpot, res)) {
+    return;
+  }
 
   const { url, preview } = req.body;
   if (userSpot) {
@@ -262,8 +282,8 @@ router.post("/:spotId/images", requireAuth, async (req, res) => {
         preview: image.preview,
       });
     } else {
-      res.status(403);
-      return res.json({ message: "Forbidden" });
+      forbiddenError(res);
+      return;
     }
   }
 });
@@ -272,7 +292,13 @@ router.post("/:spotId/images", requireAuth, async (req, res) => {
 
 router.put("/:spotId", requireAuth, validateCreateSpot, async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId);
-  notFoundError(spot, res);
+  if (notFoundError(spot, res)) {
+    return;
+  }
+  if (req.user.id !== spot.ownerId) {
+    forbiddenError(res);
+    return;
+  }
 
   const { address, city, state, country, lat, lng, name, description, price } =
     req.body;
@@ -289,7 +315,11 @@ router.put("/:spotId", requireAuth, validateCreateSpot, async (req, res) => {
     price,
   });
   res.status(200);
-  return res.json(spot);
+  return res.json({
+    ...spot.toJSON(),
+    createdAt: convertDateFormat(spot.createdAt),
+    updatedAt: convertDateFormat(spot.updatedAt),
+  });
 });
 
 //Delete a Spot
@@ -297,6 +327,10 @@ router.put("/:spotId", requireAuth, validateCreateSpot, async (req, res) => {
 router.delete("/:spotId", requireAuth, async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId);
   notFoundError(spot, res);
+  if (req.user.id !== spot.ownerId) {
+    forbiddenError(res);
+    return;
+  }
   await spot.destroy();
   res.status(200);
   return res.json({
@@ -308,7 +342,9 @@ router.delete("/:spotId", requireAuth, async (req, res) => {
 
 router.get("/:spotId/reviews", async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId);
-  notFoundError(spot, res);
+  if (notFoundError(spot, res)) {
+    return;
+  }
 
   const reviews = await Review.findAll({
     where: { spotId: spot.id },
@@ -325,7 +361,13 @@ router.get("/:spotId/reviews", async (req, res) => {
   });
 
   res.status(200);
-  return res.json(reviews);
+  return res.json({
+    Reviews: reviews.map((review) => ({
+      ...review.toJSON(),
+      createdAt: convertDateFormat(review.createdAt),
+      updatedAt: convertDateFormat(review.updatedAt),
+    })),
+  });
 });
 
 const validateCreateReview = [
@@ -346,7 +388,9 @@ router.post(
   validateCreateReview,
   async (req, res) => {
     const spot = await Spot.findByPk(req.params.spotId);
-    notFoundError(spot, res);
+    if (notFoundError(spot, res)) {
+      return;
+    }
 
     const alreadyHaveReview = await Review.findOne({
       where: { spotId: spot.id, userId: req.user.id },
@@ -363,7 +407,11 @@ router.post(
         stars,
       });
       res.status(201);
-      return res.json(newReview);
+      return res.json({
+        ...newReview.toJSON(),
+        createdAt: convertDateFormat(newReview.createdAt),
+        updatedAt: convertDateFormat(newReview.updatedAt),
+      });
     }
   }
 );
@@ -371,9 +419,11 @@ router.post(
 // Get all Bookings for a Spot based on the Spot's id
 router.get("/:spotId/bookings", requireAuth, async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId);
-  notFoundError(spot, res);
+  if (notFoundError(spot, res)) {
+    return;
+  }
 
-  if (spot.ownerId == req.user.id) {
+  if (spot.ownerId === req.user.id) {
     const bookings = await Booking.findAll({
       where: { spotId: spot.id },
       include: [
@@ -384,27 +434,41 @@ router.get("/:spotId/bookings", requireAuth, async (req, res) => {
       ],
     });
     res.status(200);
-    return res.json(bookings);
+    return res.json({
+      Bookings: bookings.map((oneBooking) => ({
+        ...oneBooking.toJSON(),
+        startDate: convertOnlyDate(oneBooking.startDate),
+        endDate: convertOnlyDate(oneBooking.startDate),
+        createdAt: convertDateFormat(oneBooking.createdAt),
+        updatedAt: convertDateFormat(oneBooking.updatedAt),
+      })),
+    });
   } else {
     const bookings = await Booking.findAll({
       where: { spotId: spot.id },
       attributes: ["spotId", "startDate", "endDate"],
     });
     res.status(200);
-    return res.json(bookings);
+    return res.json({
+      Bookings: bookings.map((oneBooking) => ({
+        ...oneBooking.toJSON(),
+        startDate: convertOnlyDate(oneBooking.startDate),
+        endDate: convertOnlyDate(oneBooking.startDate),
+      })),
+    });
   }
 });
 
 // Create a Booking from a Spot based on the Spot's id
 router.post("/:spotId/bookings", requireAuth, async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId);
-  notFoundError(spot, res);
+  if (notFoundError(spot, res)) {
+    return;
+  }
 
   if (spot.ownerId === req.user.id) {
-    res.status(403);
-    return res.json({
-      message: "Forbidden",
-    });
+    forbiddenError(res);
+    return;
   }
 
   const { startDate, endDate } = req.body;
@@ -412,7 +476,7 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
   const newStartDate = new Date(startDate);
   const newEndDate = new Date(endDate);
 
-  if (!newStartDate || !newEndDate || newStartDate >= newEndDate) {
+  if (newStartDate >= newEndDate) {
     res.status(400);
     return res.json({
       message: "Bad Request",
@@ -426,10 +490,10 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
     where: {
       spotId: spot.id,
       startDate: {
-        [Op.lte]: newEndDate,
+        [Op.lt]: newEndDate,
       },
       endDate: {
-        [Op.gte]: newStartDate,
+        [Op.gt]: newStartDate,
       },
     },
   });
@@ -448,12 +512,18 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
   const newBooking = await Booking.create({
     spotId: spot.id,
     userId: req.user.id,
-    startDate: newStartDate,
-    endDate: newEndDate,
+    startDate,
+    endDate,
   });
 
   res.status(200);
-  return res.json(newBooking);
+  return res.json({
+    ...newBooking.toJSON(),
+    startDate: convertOnlyDate(newBooking.startDate),
+    endDate: convertOnlyDate(newBooking.startDate),
+    createdAt: convertDateFormat(newBooking.createdAt),
+    updatedAt: convertDateFormat(newBooking.updatedAt),
+  });
 });
 
 module.exports = router;

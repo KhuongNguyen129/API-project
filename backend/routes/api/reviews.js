@@ -10,6 +10,7 @@ const {
 const { requireAuth } = require("../../utils/auth");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
+const convertDateFormat = require("./date-convert");
 
 const validateCreateReview = [
   check("review")
@@ -74,21 +75,31 @@ router.get("/current", requireAuth, async (req, res) => {
   });
 
   res.status(200);
-  return res.json(reviewLists);
+  return res.json({
+    Reviews: reviewLists.map((review) => ({
+      ...review,
+      createdAt: convertDateFormat(review.createdAt),
+      updatedAt: convertDateFormat(review.updatedAt),
+    })),
+  });
 });
 
 // Add an Image to a Review based on the Review's id
 router.post("/:reviewId/images", requireAuth, async (req, res) => {
   const review = await Review.findByPk(req.params.reviewId);
-  if (!review || review.userId !== req.user.id) {
+  if (!review) {
     res.status(404);
     return res.json({ message: "Review couldn't be found" });
+  }
+  if (review.userId !== req.user.id) {
+    res.status(403);
+    return res.json({ message: "Forbidden" });
   }
 
   const images = await ReviewImage.findAll({
     where: { reviewId: review.id },
   });
-  console.log(images.length);
+
   if (images.length >= 10) {
     res.status(403);
     return res.json({
@@ -99,12 +110,14 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
   const { url } = req.body;
 
   const newImage = await ReviewImage.create({
-    reviewId: review.id,
     url,
   });
 
   res.status(200);
-  return res.json(newImage);
+  return res.json({
+    id: newImage.id,
+    url: newImage.url,
+  });
 });
 
 // Edit a Review
@@ -114,9 +127,13 @@ router.put(
   validateCreateReview,
   async (req, res) => {
     const oneReview = await Review.findByPk(req.params.reviewId);
-    if (!oneReview || oneReview.userId !== req.user.id) {
+    if (!oneReview) {
       res.status(404);
       return res.json({ message: "Review couldn't be found" });
+    }
+    if (oneReview.userId !== req.user.id) {
+      res.status(403);
+      return res.json({ message: "Forbidden" });
     }
     const { review, stars } = req.body;
 
@@ -125,16 +142,24 @@ router.put(
       stars,
     });
     res.status(200);
-    return res.json(oneReview);
+    return res.json({
+      ...oneReview.toJSON(),
+      createdAt: convertDateFormat(oneReview.createdAt),
+      updatedAt: convertDateFormat(oneReview.updatedAt),
+    });
   }
 );
 
 // Delete a Review
 router.delete("/:reviewId", async (req, res) => {
   const review = await Review.findByPk(req.params.reviewId);
-  if (!review || review.userId !== req.user.id) {
+  if (!review) {
     res.status(404);
     return res.json({ message: "Review couldn't be found" });
+  }
+  if (review.userId !== req.user.id) {
+    res.status(403);
+    return res.json({ message: "Forbidden" });
   }
   await review.destroy();
   res.status(200);

@@ -3,6 +3,7 @@ const router = express.Router();
 const { Spot, Booking, SpotImage } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
 const { Op } = require("sequelize");
+const { convertDateFormat, convertOnlyDate } = require("./date-convert");
 
 // Get all of the Current User's Bookings
 router.get("/current", requireAuth, async (req, res) => {
@@ -47,15 +48,25 @@ router.get("/current", requireAuth, async (req, res) => {
   });
 
   res.status(200);
-  return res.json(bookingLists);
+  return res.json({
+    Bookings: bookingLists.map((oneBooking) => ({
+      ...oneBooking,
+      createdAt: convertDateFormat(oneBooking.createdAt),
+      updatedAt: convertDateFormat(oneBooking.updatedAt),
+    })),
+  });
 });
 
 //Edit a Booking
 router.put("/:bookingId", requireAuth, async (req, res) => {
   const booking = await Booking.findByPk(req.params.bookingId);
-  if (!booking || booking.userId !== req.user.id) {
+  if (!booking) {
     res.status(404);
     return res.json({ message: "Booking couldn't be found" });
+  }
+  if (booking.userId !== req.user.id) {
+    res.status(403);
+    return res.json({ message: "Forbidden" });
   }
 
   const { startDate, endDate } = req.body;
@@ -77,11 +88,14 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
   const alreadyBooking = await Booking.findOne({
     where: {
       spotId: booking.spotId,
+      id: {
+        [Op.ne]: booking.id,
+      },
       startDate: {
-        [Op.lte]: newEndDate,
+        [Op.lt]: newEndDate,
       },
       endDate: {
-        [Op.gte]: newStartDate,
+        [Op.gt]: newStartDate,
       },
     },
   });
@@ -107,12 +121,18 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
 
   if (booking.userId === req.user.id) {
     await booking.update({
-      startDate: newStartDate,
-      endDate: newEndDate,
+      startDate: startDate,
+      endDate: endDate,
     });
 
     res.status(200);
-    return res.json(booking);
+    return res.json({
+      ...booking.toJSON(),
+      startDate: convertOnlyDate(booking.startDate),
+      endDate: convertOnlyDate(booking.startDate),
+      createdAt: convertDateFormat(booking.createdAt),
+      updatedAt: convertDateFormat(booking.updatedAt),
+    });
   }
 });
 
@@ -123,12 +143,15 @@ router.delete("/:bookingId", requireAuth, async (req, res) => {
     res.status(404);
     return res.json({ message: "Booking couldn't be found" });
   }
-  if (booking.userId !== req.user.id) {
+  if (booking.userId === req.user.id) {
     const spot = await Spot.findByPk(booking.spotId);
-    if (!spot || spot.ownerId !== req.user.id) {
-      res.status(404);
-      return res.json({ message: "Booking couldn't be found" });
+    if (spot.ownerId !== req.user.id) {
+      res.status(403);
+      return res.json({ message: "Forbidden" });
     }
+  } else {
+    res.status(403);
+    return res.json({ message: "Forbidden" });
   }
 
   const newStartDate = new Date(booking.startDate);

@@ -145,13 +145,12 @@ router.delete("/:bookingId", requireAuth, async (req, res) => {
     res.status(404);
     return res.json({ message: "Booking couldn't be found" });
   }
-  if (booking.userId !== req.user.id) {
-    res.status(403);
-    return res.json({ message: "Forbidden" });
-  }
-
   const spot = await Spot.findByPk(req.user.id);
-  if (spot.ownerId !== req.user.id) {
+  if (booking.userId !== req.user.id) {
+    if (spot.ownerId !== req.user.id) {
+      res.status(403);
+      return res.json({ message: "Forbidden" });
+    }
     res.status(403);
     return res.json({ message: "Forbidden" });
   }

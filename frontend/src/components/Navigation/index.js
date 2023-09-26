@@ -8,18 +8,21 @@ function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
 
   return (
-    <ul>
-      <li>
-        <NavLink exact to="/" className="home-link">
-          Home
-        </NavLink>
-      </li>
+    <div id="top-bar">
+      <NavLink class="NavLinkClass" exact to="/">
+        <img
+          id="kbnb-logo"
+          src="https://cdn.usbrandcolors.com/images/logos/airbnb-logo.svg"
+        />
+        <h2>KhuongBnB</h2>
+      </NavLink>
+
       {isLoaded && (
         <li>
           <ProfileButton user={sessionUser} />
         </li>
       )}
-    </ul>
+    </div>
   );
 }
 

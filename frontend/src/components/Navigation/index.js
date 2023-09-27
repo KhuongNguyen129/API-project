@@ -9,7 +9,7 @@ function Navigation({ isLoaded }) {
 
   return (
     <div id="top-bar">
-      <NavLink class="NavLinkClass" exact to="/">
+      <NavLink className="NavLinkClass" exact to="/">
         <img
           id="kbnb-logo"
           src="https://cdn.usbrandcolors.com/images/logos/airbnb-logo.svg"

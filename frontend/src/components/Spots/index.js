@@ -19,7 +19,7 @@ function SpotsLandingPage() {
   return (
     <div className="spots-container">
       {spotsObj.map((spot) => (
-        <NavLink to={`/spot/${spot.id}`} key={spot.id} className="spot-detail">
+        <NavLink to={`/spots/${spot.id}`} key={spot.id} className="spot-detail">
           <div key={spot.id} className="spot">
             <div className="img">
               <img src={spot.previewImage} alt="spotImg" />
@@ -30,7 +30,7 @@ function SpotsLandingPage() {
                 <p className="city-State">
                   {spot.city}, {spot.state}
                 </p>
-                <p className="price">${spot.price}/night</p>
+                <p className="price">${spot.price} night</p>
               </div>
               <div className="ratings-stars">
                 <p className="ratings">

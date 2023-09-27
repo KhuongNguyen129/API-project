@@ -1,0 +1,22 @@
+#spot-container {
+    margin: 20px 80px;
+}
+
+.name {
+    font-size: 30px;
+}
+
+
+.rating-reviews-host-state {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0px 0px 10px 0px;
+    gap: 8px;
+}
+
+.image-list img {
+    margin: 0px;
+    height: 200px;
+    width: 400px;
+}

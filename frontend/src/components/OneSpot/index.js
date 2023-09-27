@@ -2,16 +2,20 @@ import { useParams } from "react-router-dom/";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getOneSpotThunk } from "../../store/spots";
+import { getReviewsThunk } from "../../store/reviews";
 import "./oneSpot.css";
 
 function SpotDetails() {
   const dispatch = useDispatch();
   const spot = useSelector((state) => state.spots.oneSpot);
+  const reviews = useSelector((state) => state.reviews.Reviews);
+  // console.log("reviews5456456", reviews);
   const { spotId } = useParams();
   // console.log(spot);
 
   useEffect(() => {
     dispatch(getOneSpotThunk(spotId));
+    dispatch(getReviewsThunk(spotId));
   }, [dispatch, spotId]);
 
   if (!spot || Object.keys(spot).length === 0) {
@@ -20,7 +24,7 @@ function SpotDetails() {
 
   const handleClick = (e) => {
     e.preventDefault();
-    alert(".....");
+    alert("Feature coming soon");
   };
 
   return (
@@ -31,11 +35,7 @@ function SpotDetails() {
       <div className="rating-reviews-host-state">
         <div className="ratings">
           <i className="fa-solid fa-star"></i>
-          {!spot.avgStarRating ? (
-            <span>No Rating</span>
-          ) : (
-            spot.avgStarRating.toFixed(1)
-          )}
+          {!spot.avgRating ? <span>NEW</span> : spot.avgRating.toFixed(2)}
         </div>
         <p className="numReviews">
           {spot.numReviews ? `${spot.numReviews} review` : <p> </p>}
@@ -60,6 +60,11 @@ function SpotDetails() {
       <button className="reserve-button" onClick={handleClick}>
         Reserve
       </button>
+      <div>
+        {Object.values(reviews).map((review) => (
+          <p>{review.review}</p>
+        ))}
+      </div>
     </div>
   );
 }

@@ -19,8 +19,9 @@ module.exports = {
           lat: 45.4562243543,
           lng: -53.34521435343,
           name: "Leavenworth City",
-          description: "German town",
-          price: 299.99,
+          description:
+            "German town is a place where time seems to slow down, allowing visitors to savor the beauty of both the past and the present. Whether you're seeking tranquility or adventure, Bergheim welcomes you with open arms and a warm",
+          price: 499.99,
         },
         {
           ownerId: 3,
@@ -33,7 +34,7 @@ module.exports = {
           name: "Space Needle",
           description:
             "The Space Needle features an observation deck 520 ft (160 m) above ground, providing views of the downtown Seattle skyline, the Olympic and Cascade Mountains",
-          price: 39.99,
+          price: 599.99,
         },
         {
           ownerId: 1,
@@ -46,7 +47,19 @@ module.exports = {
           name: "Pike Place Market",
           description:
             "Pike Place Market is a public market in Seattle, Washington, United States",
-          price: 29.99,
+          price: 399.99,
+        },
+        {
+          ownerId: 1,
+          address: "11292 SW Ave",
+          city: "Seattle",
+          state: "WA",
+          country: "USA",
+          lat: 58.4562243543,
+          lng: -69.34521435343,
+          name: "Rich House",
+          description: "Good view",
+          price: 699.99,
         },
       ],
       { validate: true }

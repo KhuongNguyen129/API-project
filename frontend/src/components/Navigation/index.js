@@ -17,11 +17,14 @@ function Navigation({ isLoaded }) {
         <h2>KhuongBnB</h2>
       </NavLink>
 
-      {isLoaded && (
-        <li>
-          <ProfileButton user={sessionUser} />
-        </li>
-      )}
+      <div className="create-spot">
+        {sessionUser && <button>Create a New Spot</button>}
+        {isLoaded && (
+          <li>
+            <ProfileButton user={sessionUser} />
+          </li>
+        )}
+      </div>
     </div>
   );
 }

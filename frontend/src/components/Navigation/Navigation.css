@@ -13,7 +13,9 @@
 }
 
 h2 {
-    color: rgb(220, 79, 79)
+    font-family:cursive;
+    color: rgb(226, 96, 96)
+    
 }
 
 img {
@@ -31,7 +33,7 @@ img {
     border: rgb(208, 205, 205) solid 1px;
     padding: 5px 10px;
     border-radius: 20px;
-    
+    box-shadow: 2px 1px gray;;
 }
 
 li {
@@ -44,4 +46,17 @@ li {
 
 #kbnb-logo {
     transform: rotate(180deg)
+}
+
+.create-spot {
+    display: flex;
+
+}
+
+.create-spot button {
+    margin-right: 10px;
+    border: rgb(208, 205, 205) solid 1px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    box-shadow: 2px 1px gray;;
 }

@@ -61,7 +61,7 @@ return (
         <input
           type="text"
           value={city}
-          onChange={(e) => setFirstName(e.target.value)}
+          onChange={(e) => setCity(e.target.value)}
           required
         />
       </label>
@@ -71,7 +71,7 @@ return (
         <input
           type="text"
           value={state}
-          onChange={(e) => setLastName(e.target.value)}
+          onChange={(e) => setState(e.target.value)}
           required
         />
       </label>
@@ -81,7 +81,7 @@ return (
         <input
           type="text"
           value={title}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
           required
         />
       </label>
@@ -91,7 +91,7 @@ return (
         <input
           type=""
           value={price}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          onChange={(e) => setPrice(e.target.value)}
           required
         />
       </label>

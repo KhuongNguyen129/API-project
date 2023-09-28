@@ -1,0 +1,18 @@
+.form-container {
+    margin: 0px 400px
+
+}
+form, .city, .state {
+    display: flex;
+    flex-direction: column;
+}
+
+form {
+    gap: 5px
+}
+.city-state {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 8px;
+    justify-content: space-between;
+}

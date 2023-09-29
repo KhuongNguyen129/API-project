@@ -44,7 +44,7 @@ export const createImageThunk = (url, preview, spotId) => async (dispatch) => {
     const image = await res.json();
     // console.log("image.........: ", image)
 
-    dispatch(getOneSpot(image));
+    dispatch(createImage(image));
     return image;
   } else {
     const error = await res.json();
@@ -107,7 +107,7 @@ const spotsReducer = (state = initialState, action) => {
       return {
         ...state,
         oneSpot: action.spot,
-        allSpots: newSpot,
+        allSpots: { ...state.allSpots },
       };
     default:
       return state;

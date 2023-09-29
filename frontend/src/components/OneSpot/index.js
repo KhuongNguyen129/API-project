@@ -32,27 +32,28 @@ function SpotDetails() {
       <div className="name">
         <div>{spot ? spot.name : "Loading..."}</div>
       </div>
-      <div className="rating-reviews-host-state">
-        <div className="ratings">
-          <i className="fa-solid fa-star"></i>
-          {!spot.avgRating || isNaN(spot.avgRating)
-            ? "New"
-            : parseFloat(spot.avgRating).toFixed(2)}
-        </div>
-        <p className="numReviews">
-          {spot.numReviews ? `${spot.numReviews} review` : <p> </p>}
-        </p>
-        <div className="host-detail">
-          <p>
-            Hosted by {spot.Owner.firstName} {spot.Owner.lastName}
-          </p>
-        </div>
-        <div className="state">{`${spot.city}, ${spot.state}, ${spot.country}`}</div>
-      </div>
+      <div className="state">{`${spot.city}, ${spot.state}, ${spot.country}`}</div>
+
       <div className="image-list">
         {spot.SpotImages.map((image) => (
           <img key={image.id} src={image.url} alt="main img" />
         ))}
+      </div>
+
+      <div className="ratings">
+        <i className="fa-solid fa-star"></i>
+        {!spot.avgRating || isNaN(spot.avgRating)
+          ? "New"
+          : parseFloat(spot.avgRating).toFixed(2)}
+      </div>
+      <p className="numReviews">
+        {spot.numReviews ? `${spot.numReviews} review` : <p> </p>}
+      </p>
+
+      <div className="host-detail">
+        <p>
+          Hosted by {spot.Owner.firstName} {spot.Owner.lastName}
+        </p>
       </div>
       <div>{spot.description}</div>
 

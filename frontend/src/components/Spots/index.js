@@ -26,7 +26,6 @@ function SpotsLandingPage() {
             </div>
             <div className="details-container">
               <div className="details">
-                <h3 className="spot-name">{spot.name}</h3>
                 <p className="city-State">
                   {spot.city}, {spot.state}
                 </p>

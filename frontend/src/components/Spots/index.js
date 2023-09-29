@@ -35,7 +35,7 @@ function SpotsLandingPage() {
               <div className="ratings-stars">
                 <p className="ratings">
                   <i className="fa-solid fa-star"></i>
-                  {!spot.avgRating
+                  {!spot.avgRating || isNaN(spot.avgRating)
                     ? "New"
                     : parseFloat(spot.avgRating).toFixed(2)}
                 </p>

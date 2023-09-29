@@ -35,11 +35,9 @@ function SpotDetails() {
       <div className="rating-reviews-host-state">
         <div className="ratings">
           <i className="fa-solid fa-star"></i>
-          {!spot.avgRating ? (
-            <span>New</span>
-          ) : (
-            parseFloat(spot.avgRating).toFixed(2)
-          )}
+          {!spot.avgRating || isNaN(spot.avgRating)
+            ? "New"
+            : parseFloat(spot.avgRating).toFixed(2)}
         </div>
         <p className="numReviews">
           {spot.numReviews ? `${spot.numReviews} review` : <p> </p>}

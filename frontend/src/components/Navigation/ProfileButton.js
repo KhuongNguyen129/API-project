@@ -4,6 +4,7 @@ import * as sessionActions from "../../store/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import { NavLink } from "react-router-dom";
 
 // showMenu controls the display of the dropdown menu
 
@@ -53,6 +54,11 @@ function ProfileButton({ user }) {
             <li>{user.username}</li>
             <li>Hello, {user.firstName}</li>
             <li>{user.email}</li>
+            <li>
+              <NavLink exact to="/spots/current">
+                <button className="manage-button">Manage Spots</button>
+              </NavLink>
+            </li>
             <li>
               <button onClick={logout}>Log Out</button>
             </li>

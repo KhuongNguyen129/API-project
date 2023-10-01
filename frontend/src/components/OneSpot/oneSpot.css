@@ -19,3 +19,14 @@
 .state, .host-detail {
     padding: 15px 0px
 }
+
+
+.rating-price-button {
+    width: 900px;
+   
+    background-color: rgb(208, 205, 205);
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+   
+}

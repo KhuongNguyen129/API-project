@@ -35,35 +35,35 @@ export const CreateSpot = () => {
     if (!title) errorsObj.title = "Name is required";
     if (!price) errorsObj.price = "Price is required";
     if (
-      !previewImg &&
+      previewImg &&
       !previewImg.endsWith(".jpg") &&
       !previewImg.endsWith(".jpeg") &&
       !previewImg.endsWith(".png")
     )
       errorsObj.previewImg = "Preview image is required";
     if (
-      !imgOne &&
+      imgOne &&
       !imgOne.endsWith(".jpg") &&
       !imgOne.endsWith(".jpeg") &&
       !imgOne.endsWith(".png")
     )
       errorsObj.imgOne = "Image URL must end in .png, .jpg, or .jpeg";
     if (
-      !imgTwo &&
+      imgTwo &&
       !imgTwo.endsWith(".jpg") &&
       !imgTwo.endsWith(".jpeg") &&
       !imgTwo.endsWith(".png")
     )
       errorsObj.imgTwo = "Image URL must end in .png, .jpg, or .jpeg";
     if (
-      !imgThree &&
+      imgThree &&
       !imgThree.endsWith(".jpg") &&
       !imgThree.endsWith(".jpeg") &&
       !imgThree.endsWith(".png")
     )
       errorsObj.imgThree = "Image URL must end in .png, .jpg, or .jpeg";
     if (
-      !imgFour &&
+      imgFour &&
       !imgFour.endsWith(".jpg") &&
       !imgFour.endsWith(".jpeg") &&
       !imgFour.endsWith(".png")

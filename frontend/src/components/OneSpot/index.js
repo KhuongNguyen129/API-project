@@ -26,7 +26,9 @@ function SpotDetails() {
     e.preventDefault();
     alert("Feature coming soon");
   };
-
+  // console.log("SPOTIMG>>>>>>>: ", spot.SpotImages);
+  // console.log("FIRSTNAME>>>>>>>: ", spot.Owner.firstName);
+  console.log("SPOT>>>>>>>: ", spot);
   return (
     <div id="spot-container">
       <div className="name">
@@ -35,34 +37,38 @@ function SpotDetails() {
       <div className="state">{`${spot.city}, ${spot.state}, ${spot.country}`}</div>
 
       <div className="image-list">
-        {spot.SpotImages.map((image) => (
-          <img key={image.id} src={image.url} alt="main img" />
-        ))}
+        {spot.SpotImages &&
+          spot.SpotImages.map((image) => (
+            <img key={image.id} src={image.url} alt="main img" />
+          ))}
       </div>
 
-      <div className="ratings">
-        <i className="fa-solid fa-star"></i>
-        {!spot.avgRating || isNaN(spot.avgRating)
-          ? "New"
-          : parseFloat(spot.avgRating).toFixed(2)}
+      <div className="host-reserve">
+        <div className="host-detail">
+          Hosted by {spot.Owner.firstName} {spot.Owner.lastName}
+          <div>{spot.description}</div>
+        </div>
+
+        <div className="rating-price-button">
+          <div className="rating-price">
+            <div className="ratings">
+              <div className="price">
+                <p>${spot.price} night</p>
+              </div>
+              <i className="fa-solid fa-star"></i>
+              {!spot.avgRating || isNaN(spot.avgRating)
+                ? "New"
+                : parseFloat(spot.avgRating).toFixed(2)}
+            </div>
+          </div>
+          <button className="reserve-button" onClick={handleClick}>
+            Reserve
+          </button>
+        </div>
       </div>
       <p className="numReviews">
         {spot.numReviews ? `${spot.numReviews} review` : <p> </p>}
       </p>
-
-      <div className="host-detail">
-        <p>
-          Hosted by {spot.Owner.firstName} {spot.Owner.lastName}
-        </p>
-      </div>
-      <div>{spot.description}</div>
-
-      <div className="price">
-        <p>${spot.price} night</p>
-      </div>
-      <button className="reserve-button" onClick={handleClick}>
-        Reserve
-      </button>
       <div>
         {Object.values(reviews).map((review) => (
           <p>{review.review}</p>

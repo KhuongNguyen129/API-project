@@ -26,7 +26,7 @@ function SpotsLandingPage() {
             </div>
             <div className="details-container">
               <div className="details">
-                <p className="city-State">
+                <p styleclassName="city-State">
                   {spot.city}, {spot.state}
                 </p>
                 <p className="price">${spot.price} night</p>

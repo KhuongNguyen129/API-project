@@ -8,7 +8,7 @@
     justify-items: center;
 }
 
-.img img {
+.spot img {
     margin: 0px;
     height: 200px;
     width: 100%;
@@ -20,6 +20,17 @@
     justify-content: space-between;
 }
 
-.city-State, .price, .ratings-stars {
-    text-decoration: none;
+.rating {
+    padding-top: 10px;
+}
+
+.buttons {
+    display: flex;
+    gap:10px
+}
+
+.buttons button {
+    background-color: grey;
+    color: white;
+    box-shadow: 2px 1px 1px black;
 }

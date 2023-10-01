@@ -101,9 +101,9 @@ export const updateSpotThunk = (spot) => async (dispatch) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(spot),
     });
-    const updateSpot = await res.json();
+    const updateCurrentSpot = await res.json();
     dispatch(updateSpot(spot));
-    return updateSpot;
+    return updateCurrentSpot;
   } catch (e) {
     return await e.json();
   }

@@ -7,6 +7,7 @@ import Spots from "./components/Spots/index";
 import OneSpot from "./components/OneSpot/index";
 import CreateSpot from "./components/CreateSpot";
 import ManageSpots from "./components/ManageSpots";
+import UpdateSpot from "./components/UpdateSpot";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -27,6 +28,9 @@ function App() {
           </Route>
           <Route exact path="/spots/current">
             <ManageSpots />
+          </Route>
+          <Route exact path="/spots/:spotId/edit">
+            <UpdateSpot />
           </Route>
           <Route exact path="/spots/:spotId">
             <OneSpot />

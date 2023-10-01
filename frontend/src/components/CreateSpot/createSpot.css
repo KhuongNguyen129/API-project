@@ -16,7 +16,9 @@ form {
     gap: 8px;
     justify-content: space-between;
 }
-
+.state {
+    padding: 0px;
+}
 .err {
     display: flex;
     align-items: center;

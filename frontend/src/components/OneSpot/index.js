@@ -30,9 +30,6 @@ function SpotDetails() {
   // console.log("SPOTIMG>>>>>>>: ", spot.SpotImages);
   // console.log("FIRSTNAME>>>>>>>: ", spot.Owner.firstName);
   // console.log("SPOT>>>>>>>: ", spot);
-
-  const re = Object.values(reviews).map((review) => review.createAt);
-  console.log("reviews>>>>>>>: ", re);
   return (
     <div id="spot-container">
       <div className="name">
@@ -79,7 +76,7 @@ function SpotDetails() {
             <div>
               {review.User.firstName} {review.User.lastName}
             </div>
-            <div>{review.createAt}</div>
+            <div>{review.createdAt}</div>
             <p>{review.review}</p>
           </>
         ))}

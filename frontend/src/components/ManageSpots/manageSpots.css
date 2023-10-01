@@ -34,3 +34,7 @@
     color: white;
     box-shadow: 2px 1px 1px black;
 }
+
+#spot-map-container {
+    text-decoration: none;
+}

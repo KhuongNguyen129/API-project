@@ -6,10 +6,11 @@ import "./manageSpots.css";
 
 export default function ManageSpots() {
   const user = useSelector((state) => state.session.user);
-  console.log("USER.........: ", user);
+  //   console.log("USER.........: ", user);
   const dispatch = useDispatch();
   const spots = useSelector((state) => state.spots.allSpots);
-  console.log("SPOT>>>>>>>: ", spots);
+
+  //   console.log("SPOT>>>>>>>: ", spots);
   const spotArr = Object.values(spots);
   if (!spotArr || !spotArr.length) {
     dispatch(getSpotsThunk());
@@ -26,29 +27,32 @@ export default function ManageSpots() {
       <h1>Manage Your Spots</h1>
       <div className="spots-container">
         {userSpots.map((spot) => (
-          <NavLink key={spot.id} to={`/spots/${spot.id}`}>
-            <div className="spot">
-              <img src={spot.previewImage} alt={spot.name} />
-              <div className="details-container">
-                <div>
-                  <p>
-                    {spot.city}, {spot.state}
-                  </p>
-                  <p>${spot.price} night</p>
+          <div id="spot-map-container">
+            <NavLink key={spot.id} to={`/spots/${spot.id}`}>
+              <div className="spot">
+                <img src={spot.previewImage} alt={spot.name} />
+                <div className="details-container">
+                  <div>
+                    <p>
+                      {spot.city}, {spot.state}
+                    </p>
+                    <p>${spot.price} night</p>
+                  </div>
+                  <div className="rating">
+                    <i className="fa-solid fa-star"></i>{" "}
+                    {!spot.avgRating || isNaN(spot.avgRating)
+                      ? `New`
+                      : parseFloat(spot.avgRating).toFixed(2)}
+                  </div>
                 </div>
-                <div className="rating">
-                  <i className="fa-solid fa-star"></i>{" "}
-                  {!spot.avgRating || isNaN(spot.avgRating)
-                    ? `New`
-                    : parseFloat(spot.avgRating).toFixed(2)}
-                </div>
+                <div className="buttons"></div>
               </div>
-              <div className="buttons">
-                <button>Update</button>
-                <button>Delete</button>
-              </div>
-            </div>
-          </NavLink>
+            </NavLink>
+            <NavLink to={`/spots/${spot.id}/edit`}>
+              <button>Update</button>
+            </NavLink>
+            <button>Delete</button>
+          </div>
         ))}
       </div>
     </>

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOneSpotThunk } from "../../store/spots";
 import { getReviewsThunk } from "../../store/reviews";
 import "./oneSpot.css";
+import ReviewModal from "../Reviews";
 
 function SpotDetails() {
   const dispatch = useDispatch();
@@ -28,7 +29,10 @@ function SpotDetails() {
   };
   // console.log("SPOTIMG>>>>>>>: ", spot.SpotImages);
   // console.log("FIRSTNAME>>>>>>>: ", spot.Owner.firstName);
-  console.log("SPOT>>>>>>>: ", spot);
+  // console.log("SPOT>>>>>>>: ", spot);
+
+  const re = Object.values(reviews).map((review) => review.createAt);
+  console.log("reviews>>>>>>>: ", re);
   return (
     <div id="spot-container">
       <div className="name">
@@ -71,9 +75,16 @@ function SpotDetails() {
       </p>
       <div>
         {Object.values(reviews).map((review) => (
-          <p>{review.review}</p>
+          <>
+            <div>
+              {review.User.firstName} {review.User.lastName}
+            </div>
+            <div>{review.createAt}</div>
+            <p>{review.review}</p>
+          </>
         ))}
       </div>
+      <ReviewModal spotId={spot.id} />
     </div>
   );
 }

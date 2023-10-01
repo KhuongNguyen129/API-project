@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useModal } from "../../context/Modal";
 import { useDispatch } from "react-redux";
 import { createReviewThunk, getReviewsThunk } from "../../store/reviews";
+import { getOneSpotThunk } from "../../store/spots";
 
 function ReviewForm({ spotId }) {
   const [errors, setErrors] = useState({});
-  const [review, setDescription] = useState("");
-  const [stars, setStarRating] = useState(0);
+  const [description, setDescription] = useState("");
+  const [starRating, setStarRating] = useState(0);
+  const [hover, setHover] = useState(0);
   const [submit, setSubmit] = useState(false);
 
   const dispatch = useDispatch();
@@ -14,29 +16,94 @@ function ReviewForm({ spotId }) {
 
   useEffect(() => {
     let errObj = {};
-    if (!review || review.length < 10)
-      errObj.review = "Please enter a minimum of 10 characters for your review";
+    if (!description || description.length < 10)
+      errObj.description =
+        "Please enter a minimum of 10 characters for your review";
 
     setErrors(errObj);
-  }, [review]);
+  }, [description]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmit(true);
     const submitReview = {
-      review,
-      stars,
+      review: description,
+      stars: starRating,
     };
 
     if (Object.keys(errors).length === 0) {
-      await dispatch(createReviewThunk(submitReview, spotId));
-      await dispatch(getReviewsThunk(spotId));
+      dispatch(createReviewThunk(submitReview, spotId));
+      dispatch(getOneSpotThunk(spotId));
+      dispatch(getReviewsThunk(spotId));
       closeModal();
       setSubmit(false);
     }
   };
 
-  return <></>;
+  return (
+    <form onSubmit={handleSubmit}>
+      <h2>How was your stay?</h2>
+      <textarea
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        placeholder="Leave your review here"
+      />
+      <p>{submit && errors.description}</p>
+      <div className="stars">
+        <i
+          className={
+            (hover || starRating) >= 1
+              ? "fa-solid fa-star"
+              : "fa-regular fa-star"
+          }
+          onMouseEnter={() => setHover(1)}
+          onMouseLeave={() => setHover(0)}
+          onClick={() => setStarRating(1)}
+        />
+        <i
+          className={
+            (hover || starRating) >= 2
+              ? "fa-solid fa-star"
+              : "fa-regular fa-star"
+          }
+          onMouseEnter={() => setHover(2)}
+          onMouseLeave={() => setHover(0)}
+          onClick={() => setStarRating(2)}
+        />
+        <i
+          className={
+            (hover || starRating) >= 3
+              ? "fa-solid fa-star"
+              : "fa-regular fa-star"
+          }
+          onMouseEnter={() => setHover(3)}
+          onMouseLeave={() => setHover(0)}
+          onClick={() => setStarRating(3)}
+        />
+        <i
+          className={
+            (hover || starRating) >= 4
+              ? "fa-solid fa-star"
+              : "fa-regular fa-star"
+          }
+          onMouseEnter={() => setHover(4)}
+          onMouseLeave={() => setHover(0)}
+          onClick={() => setStarRating(4)}
+        />
+        <i
+          className={
+            (hover || starRating) >= 5
+              ? "fa-solid fa-star"
+              : "fa-regular fa-star"
+          }
+          onMouseEnter={() => setHover(5)}
+          onMouseLeave={() => setHover(0)}
+          onClick={() => setStarRating(5)}
+        />
+      </div>
+      <button>Submit Review</button>
+    </form>
+  );
 }
 
 export default ReviewForm;

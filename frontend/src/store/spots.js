@@ -3,6 +3,7 @@ const GET_ONE_SPOT = "spots/GET_ONE_SPOT";
 const GET_SPOTS = "spots/GET_SPOTS";
 const CREATE_SPOT = "spots/CREATE_SPOT";
 const CREATE_IMAGE = "spots/CREATE_IMAGE";
+const UPDATE_SPOT = "spots/UPDSTE_SPOT";
 
 //ACTION CREATORS
 const createImage = (newImage) => {
@@ -28,6 +29,13 @@ const getSpots = (spots) => {
   return {
     type: GET_SPOTS,
     spots,
+  };
+};
+
+const updateSpot = (spot) => {
+  return {
+    type: UPDATE_SPOT,
+    spot,
   };
 };
 
@@ -86,6 +94,21 @@ export const getSpotsThunk = () => async (dispatch) => {
   }
 };
 
+export const updateSpotThunk = (spot) => async (dispatch) => {
+  try {
+    const res = await csrfFetch(`/api/spots/${spot.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(spot),
+    });
+    const updateSpot = await res.json();
+    dispatch(updateSpot(spot));
+    return updateSpot;
+  } catch (e) {
+    return await e.json();
+  }
+};
+
 const initialState = {
   allSpots: {},
   oneSpot: {},
@@ -104,6 +127,12 @@ const spotsReducer = (state = initialState, action) => {
       newState = { ...state, oneSpot: action.spot };
       return newState;
     case CREATE_SPOT:
+      return {
+        ...state,
+        oneSpot: action.spot,
+        allSpots: { ...state.allSpots },
+      };
+    case UPDATE_SPOT:
       return {
         ...state,
         oneSpot: action.spot,

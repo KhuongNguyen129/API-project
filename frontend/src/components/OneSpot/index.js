@@ -10,7 +10,9 @@ function SpotDetails() {
   const dispatch = useDispatch();
   const spot = useSelector((state) => state.spots.oneSpot);
   const reviews = useSelector((state) => state.reviews.Reviews);
-  // console.log("SPOT ONE SPOT", spot);
+  console.log("SPOT ONE SPOT", spot);
+  const spotArr = Object.values(spot);
+  console.log("SPOT ONE SPOT ARRAY", spotArr);
   // console.log("reviews5456456", reviews);
   const { spotId } = useParams();
   // console.log(".........", spotId);
@@ -85,23 +87,23 @@ function SpotDetails() {
         </div>
       </div>
       <p className="numReviews">
-        <i className="fa-solid fa-star"></i>
+        {/* {spot.numReviews ? `${spot.numReviews} review` : <p> </p>} */}
         {!spot.avgRating || isNaN(spot.avgRating)
           ? "New"
           : parseFloat(spot.avgRating).toFixed(2)}
         {" · "}
-        {spot.numReviews ? `${spot.numReviews} review` : <p> </p>}
+        {spot.numReviews ? `${spot.numReviews} reviews` : null}
       </p>
       <div>
-        {Object.values(reviews).map((review) => (
-          <>
-            <div>
-              {review.User?.firstName} {review.User?.lastName}
-            </div>
-            <div>{review.createdAt}</div>
-            <p>{review.review}</p>
-          </>
-        ))}
+        {Object.values(reviews)
+          .toReversed()
+          .map((review) => (
+            <>
+              <div>{review.User?.firstName}</div>
+              <div>{review.createdAt?.substring(0, 7)}</div>
+              <p>{review.review}</p>
+            </>
+          ))}
       </div>
       <ReviewModal spot={spot} />
     </div>

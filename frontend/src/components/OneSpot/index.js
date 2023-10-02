@@ -3,11 +3,12 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getOneSpotThunk } from "../../store/spots";
 import { getReviewsThunk } from "../../store/reviews";
-import "./oneSpot.css";
 import ReviewModal from "../Reviews";
+import "./oneSpot.css";
 
 function SpotDetails() {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.session.user);
   const spot = useSelector((state) => state.spots.oneSpot);
   const reviews = useSelector((state) => state.reviews.Reviews);
   // console.log("reviews5456456", reviews);
@@ -22,6 +23,7 @@ function SpotDetails() {
   if (!spot || Object.keys(spot).length === 0) {
     return null;
   }
+  if (!reviews) return null;
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -46,7 +48,7 @@ function SpotDetails() {
 
       <div className="host-reserve">
         <div className="host-detail">
-          Hosted by {spot.Owner.firstName} {spot.Owner.lastName}
+          Hosted by {spot?.Owner?.firstName} {spot?.Owner?.lastName}
           <div>{spot.description}</div>
         </div>
 

@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateSpotThunk, getOneSpotThunk } from "../../store/spots";
 
 export default function UpdateSpot() {
+  const { spotId } = useParams();
+  const spot = useSelector((state) => state.spots.oneSpot);
   const dispatch = useDispatch();
   const history = useHistory();
-  const spot = useSelector((state) => state.spots.oneSpot);
-  //   console.log("curentSpot>>>>>>>     ", currentSpot);
-  const { spotId } = useParams();
+  //   console.log("Spot>>>>>>>     ", spot);
 
   const [country, setCountry] = useState(spot.country);
   const [streetAddress, setStreetAddress] = useState(spot.streetAddress);
@@ -21,7 +21,7 @@ export default function UpdateSpot() {
   const [submit, setSubmit] = useState(false);
 
   useEffect(() => {
-    const errorsObj = {};
+    let errorsObj = {};
     if (!country) errorsObj.country = "Country is required";
     if (!streetAddress) errorsObj.streetAddress = "Address is required";
     if (!city) errorsObj.city = "City is required";
@@ -51,6 +51,7 @@ export default function UpdateSpot() {
   }, [spot]);
 
   const handleSubmit = async (e) => {
+    if (!spotId) return null;
     e.preventDefault();
     setSubmit(true);
 

@@ -16,6 +16,10 @@ function SpotsLandingPage() {
     dispatch(getSpotsThunk());
   }, [dispatch]);
 
+  if (!spotsObj || !spotsObj.length) {
+    dispatch(getSpotsThunk());
+    return null;
+  }
   return (
     <div className="spots-container">
       {spotsObj.map((spot) => (

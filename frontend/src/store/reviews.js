@@ -14,7 +14,6 @@ const createReview = (newReview) => ({
 });
 
 //THUNK
-
 export const getReviewsThunk = (spotId) => async (dispatch) => {
   const res = await csrfFetch(`/api/spots/${spotId}/reviews`);
   if (res.ok) {

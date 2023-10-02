@@ -4,20 +4,9 @@ const GET_SPOTS = "spots/GET_SPOTS";
 const CREATE_SPOT = "spots/CREATE_SPOT";
 const CREATE_IMAGE = "spots/CREATE_IMAGE";
 const UPDATE_SPOT = "spots/UPDSTE_SPOT";
+const DELETE_SPOT = "/spots/deleteSpot";
 
 //ACTION CREATORS
-const createImage = (newImage) => {
-  return {
-    type: CREATE_IMAGE,
-    newImage,
-  };
-};
-const createSpot = (newSpot) => {
-  return {
-    type: CREATE_SPOT,
-    newSpot,
-  };
-};
 const getOneSpot = (spot) => {
   return {
     type: GET_ONE_SPOT,
@@ -31,7 +20,19 @@ const getSpots = (spots) => {
     spots,
   };
 };
+const createSpot = (newSpot) => {
+  return {
+    type: CREATE_SPOT,
+    newSpot,
+  };
+};
 
+const createImage = (newImage) => {
+  return {
+    type: CREATE_IMAGE,
+    newImage,
+  };
+};
 const updateSpot = (spot) => {
   return {
     type: UPDATE_SPOT,
@@ -39,27 +40,33 @@ const updateSpot = (spot) => {
   };
 };
 
+const deleteSpot = (spotId) => {
+  return {
+    type: DELETE_SPOT,
+    spotId,
+  };
+};
+
 //THUNKS
-export const createImageThunk = (url, preview, spotId) => async (dispatch) => {
-  const res = await csrfFetch(`/api/spots/${spotId}/images`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ url, preview }),
-  });
-  // console.log("res.........: ", res)
 
+export const getSpotsThunk = () => async (dispatch) => {
+  const res = await csrfFetch("/api/spots");
   if (res.ok) {
-    const image = await res.json();
-    // console.log("image.........: ", image)
-
-    dispatch(createImage(image));
-    return image;
-  } else {
-    const error = await res.json();
-    console.log("err........: ", error);
-    return error;
+    const spots = await res.json();
+    dispatch(getSpots(spots));
+    return res;
   }
 };
+
+export const getOneSpotThunk = (spotId) => async (dispatch) => {
+  const res = await csrfFetch(`/api/spots/${spotId}`);
+  if (res.ok) {
+    const spot = await res.json();
+    dispatch(getOneSpot(spot));
+    return res;
+  }
+};
+
 export const createSpotThunk = (spot) => async (dispatch) => {
   let res;
   try {
@@ -77,20 +84,24 @@ export const createSpotThunk = (spot) => async (dispatch) => {
   }
 };
 
-export const getOneSpotThunk = (spotId) => async (dispatch) => {
-  const res = await csrfFetch(`/api/spots/${spotId}`);
+export const createImageThunk = (url, preview, spotId) => async (dispatch) => {
+  const res = await csrfFetch(`/api/spots/${spotId}/images`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ url, preview }),
+  });
+  // console.log("res.........: ", res)
+
   if (res.ok) {
-    const spot = await res.json();
-    dispatch(getOneSpot(spot));
-    return res;
-  }
-};
-export const getSpotsThunk = () => async (dispatch) => {
-  const res = await csrfFetch("/api/spots");
-  if (res.ok) {
-    const spots = await res.json();
-    dispatch(getSpots(spots));
-    return res;
+    const image = await res.json();
+    // console.log("image.........: ", image)
+
+    dispatch(createImage(image));
+    return image;
+  } else {
+    const error = await res.json();
+    // console.log("err........: ", error);
+    return error;
   }
 };
 
@@ -109,6 +120,20 @@ export const updateSpotThunk = (spot) => async (dispatch) => {
   }
 };
 
+export const deleteSpotThunk = (spotId) => async (dispatch) => {
+  try {
+    const res = await csrfFetch(`/api/spots/${spotId}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    if (res.ok) {
+      dispatch(deleteSpot(spotId));
+    }
+  } catch (e) {
+    return await e.json();
+  }
+};
+
 const initialState = {
   allSpots: {},
   oneSpot: {},
@@ -116,6 +141,7 @@ const initialState = {
 
 const spotsReducer = (state = initialState, action) => {
   let newState;
+  const stateAllSpots = { ...state.allSpots };
   switch (action.type) {
     case GET_SPOTS:
       newState = { ...state, allSpots: {} };
@@ -130,13 +156,19 @@ const spotsReducer = (state = initialState, action) => {
       return {
         ...state,
         oneSpot: action.spot,
-        allSpots: { ...state.allSpots },
+        allSpots: stateAllSpots,
       };
     case UPDATE_SPOT:
       return {
         ...state,
         oneSpot: action.spot,
-        allSpots: { ...state.allSpots },
+        allSpots: stateAllSpots,
+      };
+    case DELETE_SPOT:
+      delete stateAllSpots[action.spotId];
+      return {
+        ...state,
+        allSpots: stateAllSpots,
       };
     default:
       return state;

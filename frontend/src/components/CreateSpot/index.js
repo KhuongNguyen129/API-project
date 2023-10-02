@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { createImageThunk, createSpotThunk } from "../../store/spots";
 import "./createSpot.css";
 
-export const CreateSpot = () => {
+const CreateSpot = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 

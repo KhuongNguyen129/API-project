@@ -2,12 +2,14 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Redirect } from "react-router-dom";
 import { getSpotsThunk } from "../../store/spots";
+import DeleteSpot from "../DeleteSpot";
+import OpenModalButton from "../OpenModalButton";
 import "./manageSpots.css";
 
 export default function ManageSpots() {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
   //   console.log("USER.........: ", user);
-  const dispatch = useDispatch();
   const spots = useSelector((state) => state.spots.allSpots);
 
   //   console.log("SPOT>>>>>>>: ", spots);
@@ -51,7 +53,10 @@ export default function ManageSpots() {
             <NavLink to={`/spots/${spot.id}/edit`}>
               <button>Update</button>
             </NavLink>
-            <button>Delete</button>
+            <OpenModalButton
+              buttonText="Delete"
+              modalComponent={<DeleteSpot spot={spot} />}
+            />
           </div>
         ))}
       </div>

@@ -14,7 +14,7 @@
 
 }
 #callout-box {
-    border: 2px dashed black;
+    /* border: 2px dashed black; */
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -22,7 +22,7 @@
 }
 .host-detail {
     font-size: 20px;
-    border: 2px solid red;
+    /* border: 2px solid red; */
     /* width: 50%; */
     /* display: flex;
     justify-content: space-between; */
@@ -42,12 +42,10 @@
 }
 
 .ratings > .right-side-callout {
-    border: 4x solid purple;
+    /* border: 4x solid purple; */
 }
 
-div > .rating-price-button {
-        /* border: 2px solid red; */
-}
+
 
 .rating-price-button {
 

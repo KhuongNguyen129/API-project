@@ -8,12 +8,12 @@ import "./oneSpot.css";
 
 function SpotDetails() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.session.user);
   const spot = useSelector((state) => state.spots.oneSpot);
   const reviews = useSelector((state) => state.reviews.Reviews);
+  // console.log("SPOT ONE SPOT", spot);
   // console.log("reviews5456456", reviews);
   const { spotId } = useParams();
-  // console.log(spot);
+  // console.log(".........", spotId);
 
   useEffect(() => {
     dispatch(getOneSpotThunk(spotId));
@@ -83,7 +83,7 @@ function SpotDetails() {
           </>
         ))}
       </div>
-      <ReviewModal spotId={spot.id} />
+      <ReviewModal spot={spot} />
     </div>
   );
 }

@@ -3,14 +3,14 @@ import { useModal } from "../../context/Modal";
 import { useDispatch } from "react-redux";
 import { deleteSpotThunk } from "../../store/spots";
 
-export default function DeleteSpot({ spotId }) {
+export default function DeleteSpot({ spot }) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
   const [deleted, setDeleted] = useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(deleteSpotThunk(spotId));
+    dispatch(deleteSpotThunk(spot.id));
     setDeleted(false);
     closeModal();
   };

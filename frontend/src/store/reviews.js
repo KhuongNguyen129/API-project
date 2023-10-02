@@ -15,27 +15,47 @@ const createReview = (newReview) => ({
 
 //THUNK
 export const getReviewsThunk = (spotId) => async (dispatch) => {
-  const res = await csrfFetch(`/api/spots/${spotId}/reviews`);
-  if (res.ok) {
-    const reviews = await res.json();
-    dispatch(getReviews(reviews));
-    return res;
+  try {
+    const res = await csrfFetch(`/api/spots/${spotId}/reviews`);
+    if (res.ok) {
+      const reviews = await res.json();
+      dispatch(getReviews(reviews));
+      return res;
+    }
+  } catch (e) {
+    return await e.json();
   }
 };
 
 export const createReviewThunk = (review, spotId) => async (dispatch) => {
+  // let res;
+  // try {
+  //   res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify(review),
+  //   });
+  //   const newReview = await res.json();
+  //   dispatch(createReview(review));
+  //   return newReview;
+  // } catch (e) {
+  //   return await e.json();
+  // }
   let res;
-  try {
-    res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(review),
-    });
+  res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(review),
+  });
+  if (res.ok) {
+    // console.log("res for new review", res);
     const newReview = await res.json();
-    dispatch(createReview(newReview));
+    dispatch(createReview(review));
+    // dispatch(getSingleSpotThunk(review));
     return newReview;
-  } catch (e) {
-    return await e.json();
+  } else {
+    const errors = await res.json();
+    return errors;
   }
 };
 
@@ -59,7 +79,7 @@ const reviewsReducer = (state = initialState, action) => {
         Reviews: { ...state.Reviews },
         user: { ...state.User },
       };
-      newState.spot[action.newReview.id] = action.newReview;
+      newState.Reviews[action.newReview.id] = action.newReview;
     default:
       return state;
   }

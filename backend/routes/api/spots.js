@@ -229,7 +229,7 @@ router.get("/:spotId", async (req, res) => {
   delete owner.User;
 
   owner.numReviews = owner.Reviews.length;
-  if (!owner.numReviews) owner.numReviews = "No Reviews found";
+  if (!owner.numReviews) owner.numReviews = "New";
 
   findAvg(owner);
 

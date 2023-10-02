@@ -33,6 +33,10 @@ const CreateSpot = () => {
     if (!description || (description && description.length < 30))
       errorsObj.description = "Description needs a minimum of 30 characters";
     if (!title) errorsObj.title = "Name is required";
+    if (title && title.length < 3)
+      errorsObj.title = "Name needs a minimum of 3 characters";
+    if (title && title.length > 49)
+      errorsObj.title = "Name needs a maximum of 50 characters";
     if (!price) errorsObj.price = "Price is required";
     if (
       previewImg &&

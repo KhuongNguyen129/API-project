@@ -3,11 +3,13 @@ import { useModal } from "../../context/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { getReviewsThunk } from "../../store/reviews";
 import ReviewForm from "./ReviewForm";
+import OpenModalButton from "../OpenModalButton";
+import DeleteReview from "../DeleteReview";
 
 export default function ReviewModal({ spot }) {
   const dispatch = useDispatch();
   const { setModalContent, setonModalClose } = useModal();
-  console.log("SPOT>>>>>>>>>", spot);
+  //   console.log("SPOT>>>>>>>>>", spot);
 
   const user = useSelector((state) => state.session.user);
   //   console.log("USER>>>>>>>:   ", user.id);
@@ -18,14 +20,11 @@ export default function ReviewModal({ spot }) {
   //   //   console.log("SPOTOWNER>>>>>>>:   ", spotOwner);
 
   const spotReviews = useSelector((state) => state.reviews.Reviews);
-  console.log("spotReviews>>>>>>>:   ", spotReviews);
+  //   console.log("spotReviews>>>>>>>:   ", spotReviews);
 
   const currentSpotReviews = Object.values(spotReviews);
   //   console.log("currentSpotReviews>>>>>>>:   ", currentSpotReviews);
 
-  const currReview = currentSpotReviews.find(
-    (review) => user.id === review.userId
-  );
   //   console.log("currReview>>>>>>>:   ", currReview);
 
   useEffect(() => {
@@ -34,6 +33,9 @@ export default function ReviewModal({ spot }) {
 
   if (!user) return null;
   if (!currentSpotReviews) return null;
+  const currReview = currentSpotReviews.find(
+    (review) => user.id === review.userId
+  );
   return (
     <>
       <div>
@@ -44,12 +46,18 @@ export default function ReviewModal({ spot }) {
               setModalContent(<ReviewForm spot={spot} />);
             }}
           >
-            {" "}
             Post Your Review
           </button>
         ) : null}
       </div>
-      <button>Hi</button>
+      <div>
+        {user?.id === currReview?.userId ? (
+          <OpenModalButton
+            buttonText="Delete Review"
+            modalComponent={<DeleteReview review={currReview} spot={spot} />}
+          />
+        ) : null}
+      </div>
     </>
   );
 }

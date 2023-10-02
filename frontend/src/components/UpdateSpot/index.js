@@ -42,12 +42,12 @@ export default function UpdateSpot() {
 
   useEffect(() => {
     setCountry(spot.country || "");
-    setStreetAddress(spot.streetAddress || "");
+    setStreetAddress(spot.address || "");
     setCity(spot.city || "");
     setState(spot.state || "");
-    setTitle(spot.setTitle || "");
-    setPrice(spot.setPrice || "");
-    setDescription(spot.setDescription || "");
+    setTitle(spot.name || "");
+    setPrice(spot.price || "");
+    setDescription(spot.description || "");
   }, [spot]);
 
   const handleSubmit = async (e) => {

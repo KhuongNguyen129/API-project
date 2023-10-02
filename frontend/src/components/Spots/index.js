@@ -26,7 +26,7 @@ function SpotsLandingPage() {
         <NavLink to={`/spots/${spot.id}`} key={spot.id} className="spot-detail">
           <div key={spot.id} className="spot">
             <div className="img">
-              <img src={spot.previewImage} alt="spotImg" />
+              <img src={spot.previewImage} alt={spot.name} title={spot.name} />
             </div>
             <div className="details-container">
               <div className="details">

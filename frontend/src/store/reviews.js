@@ -1,6 +1,7 @@
 import { csrfFetch } from "./csrf";
 const GET_REVIEWS = "reviews/GET_REVIEWS";
 const CREATE_REVIEW = "reviews/CREATE_REVIEW";
+const DELETE_REVIEW = "/spots/DELETE_REVIEW";
 
 //Action
 const getReviews = (reviews) => ({
@@ -12,6 +13,13 @@ const createReview = (newReview) => ({
   type: CREATE_REVIEW,
   newReview,
 });
+
+const deleteReview = (reviewId) => {
+  return {
+    type: DELETE_REVIEW,
+    reviewId,
+  };
+};
 
 //THUNK
 export const getReviewsThunk = (spotId) => async (dispatch) => {
@@ -28,34 +36,34 @@ export const getReviewsThunk = (spotId) => async (dispatch) => {
 };
 
 export const createReviewThunk = (review, spotId) => async (dispatch) => {
-  // let res;
-  // try {
-  //   res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(review),
-  //   });
-  //   const newReview = await res.json();
-  //   dispatch(createReview(review));
-  //   return newReview;
-  // } catch (e) {
-  //   return await e.json();
-  // }
   let res;
-  res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(review),
-  });
-  if (res.ok) {
-    // console.log("res for new review", res);
+  try {
+    res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(review),
+    });
     const newReview = await res.json();
-    dispatch(createReview(review));
-    // dispatch(getSingleSpotThunk(review));
+    // dispatch(createReview(newReview));
+    await dispatch(getReviewsThunk(spotId));
     return newReview;
-  } else {
-    const errors = await res.json();
-    return errors;
+  } catch (e) {
+    return await e.json();
+  }
+};
+
+export const deleteReviewThunk = (review, spot) => async (dispatch) => {
+  let res;
+  try {
+    res = await csrfFetch(`/api/reviews/${review.id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    if (res.ok) {
+      dispatch(deleteReview(review.id));
+    }
+  } catch (e) {
+    return await e.json();
   }
 };
 
@@ -77,9 +85,19 @@ const reviewsReducer = (state = initialState, action) => {
       newState = {
         ...state,
         Reviews: { ...state.Reviews },
-        user: { ...state.User },
+        User: { ...state.User },
       };
       newState.Reviews[action.newReview.id] = action.newReview;
+      return newState;
+    case DELETE_REVIEW:
+      newState = {
+        ...state,
+        Reviews: { ...state.Reviews },
+        User: { ...state.User },
+      };
+      delete newState.Reviews[action.reviewId];
+      return newState;
+
     default:
       return state;
   }

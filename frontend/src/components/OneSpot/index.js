@@ -20,6 +20,8 @@ function SpotDetails() {
     dispatch(getReviewsThunk(spotId));
   }, [dispatch, spotId]);
 
+  let imageCounter = 1;
+
   if (!spot || Object.keys(spot).length === 0) {
     return null;
   }
@@ -32,6 +34,7 @@ function SpotDetails() {
   // console.log("SPOTIMG>>>>>>>: ", spot.SpotImages);
   // console.log("FIRSTNAME>>>>>>>: ", spot.Owner.firstName);
   // console.log("SPOT>>>>>>>: ", spot);
+
   return (
     <div id="spot-container">
       <div className="name">
@@ -42,16 +45,20 @@ function SpotDetails() {
       <div className="image-list">
         {spot.SpotImages &&
           spot.SpotImages.map((image) => (
-            <img key={image.id} src={image.url} alt="main img" />
+            <img
+              key={image.id}
+              src={image.url}
+              alt="main img"
+              className={`image${imageCounter++}`}
+            />
           ))}
       </div>
 
-      <div className="host-reserve">
+      <div id="callout-box">
         <div className="host-detail">
           Hosted by {spot?.Owner?.firstName} {spot?.Owner?.lastName}
           <div>{spot.description}</div>
         </div>
-
         <div className="rating-price-button">
           <div className="rating-price">
             <div className="ratings">
@@ -76,7 +83,7 @@ function SpotDetails() {
         {Object.values(reviews).map((review) => (
           <>
             <div>
-              {review.User.firstName} {review.User.lastName}
+              {review.User?.firstName} {review.User?.lastName}
             </div>
             <div>{review.createdAt}</div>
             <p>{review.review}</p>

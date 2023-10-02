@@ -10,10 +10,22 @@
     margin: 0px;
     height: 200px;
     width: 400px;
-}
 
+
+}
+#callout-box {
+    border: 2px dashed black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
 .host-detail {
     font-size: 20px;
+    border: 2px solid red;
+  
+    /* display: flex;
+    justify-content: space-between; */
 }
 
 .state, .host-detail {
@@ -22,11 +34,72 @@
 
 
 .rating-price-button {
-    width: 900px;
-   
+    
     background-color: rgb(208, 205, 205);
     color: #fff;
     text-align: center;
     padding: 10px;
+    border: 2px solid blue;
+    display: flex;
+    justify-content: space-between;
    
 }
+
+
+
+
+.image-list {
+    display: grid;
+    grid-template-columns: 400px 300px 300px;
+    grid-template-rows: 200px 200px;
+    row-gap: 5px;
+    column-gap: 5px;
+    margin: 30px;
+  }
+  
+  .imageCounter1 {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  .imageCounter2 {
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  .imageCounter3 {
+    grid-column: 3;
+    grid-row: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  .imageCounter4 {
+    grid-column: 2;
+    grid-row: 2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  .imageCounter5 {
+    grid-column: 3;
+    grid-row: 2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+
+  

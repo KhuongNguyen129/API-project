@@ -1,0 +1,25 @@
+.spots-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin: 30px 80px;
+    gap: 10px;
+    flex-direction: row;
+    align-items: center;
+    justify-items: center;
+}
+
+.img img {
+    margin: 0px;
+    height: 200px;
+    width: 100%;
+    border-radius: 15%; 
+} 
+
+.details-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.city-State, .price, .ratings-stars {
+    text-decoration: none;
+}

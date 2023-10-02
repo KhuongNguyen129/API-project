@@ -1,0 +1,14 @@
+.signup-form {
+    width: 100%;
+}
+.signup-form > label{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.signup-button {
+    padding: 10px 0px;
+    color: white;
+    background-color: rgb(235, 99, 99);
+}

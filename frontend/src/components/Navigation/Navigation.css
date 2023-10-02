@@ -1,0 +1,62 @@
+#top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgb(208, 205, 205);
+    padding: 0px 80px;
+}
+
+
+
+.hidden {
+    display: none
+}
+
+.NavLinkClass h2 {
+    font-family:cursive;
+    color: rgb(226, 96, 96)
+    
+}
+
+img {
+    height: 30px;
+    margin-right: 10px;
+}
+
+.NavLinkClass {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.sign-button {
+    border: rgb(208, 205, 205) solid 1px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    box-shadow: 2px 1px gray;;
+}
+
+li {
+    list-style-type: none;
+}
+
+.sign-button > i {
+    padding: 0 5px;
+}
+
+#kbnb-logo {
+    transform: rotate(180deg)
+}
+
+.create-spot {
+    display: flex;
+
+}
+
+.create-spot button {
+    margin-right: 10px;
+    border: rgb(208, 205, 205) solid 1px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    box-shadow: 2px 1px gray;;
+}

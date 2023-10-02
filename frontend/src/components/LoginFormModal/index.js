@@ -24,30 +24,54 @@ function LoginFormModal() {
       });
   };
 
+  const handleSubmitForDemoUser = (e) => {
+    e.preventDefault();
+    setErrors({});
+    return dispatch(
+      sessionActions.login({ credential: "demo@user.io", password: "password" })
+    )
+      .then(closeModal)
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
+  };
+
   return (
     <>
       <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username or Email
+      <form className="form" onSubmit={handleSubmit}>
+        <label className="lable">
           <input
             type="text"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
+            placeholder="Username or Email"
             required
           />
         </label>
-        <label>
-          Password
+        <label className="lable">
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
             required
           />
         </label>
         {errors.credential && <p>{errors.credential}</p>}
-        <button type="submit">Log In</button>
+        <button className="lable login" type="submit">
+          Log In
+        </button>
+        <button
+          className="Demo"
+          type="submit"
+          onClick={handleSubmitForDemoUser}
+        >
+          Demo User
+        </button>
       </form>
     </>
   );

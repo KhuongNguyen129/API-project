@@ -1,0 +1,35 @@
+#modal-content {
+    border: 1px solid gray;
+    background-color: rgb(214, 232, 248);
+    width: 400px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+#modal-content > h1 {
+    margin: 0px;
+    padding-bottom: 10px;
+}
+
+.lable, .form{
+    width: 100%;
+}
+.lable > input {
+    width: 98%;
+}
+.login {
+    box-shadow: 2px 1px 3px gray;
+    padding: 10px;
+}
+
+.Demo {
+    margin: 20px 0px;
+    background-color: rgb(214, 232, 248);
+    border: none;
+    
+}
+

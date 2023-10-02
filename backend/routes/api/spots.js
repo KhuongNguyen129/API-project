@@ -204,7 +204,7 @@ router.get("/current", requireAuth, async (req, res) => {
 
 //Get details of a Spot from an id
 
-router.get("/:spotId", requireAuth, async (req, res) => {
+router.get("/:spotId", async (req, res) => {
   const spots = await Spot.findByPk(req.params.spotId, {
     include: [
       {
@@ -229,7 +229,7 @@ router.get("/:spotId", requireAuth, async (req, res) => {
   delete owner.User;
 
   owner.numReviews = owner.Reviews.length;
-  if (!owner.numReviews) owner.numReviews = "No Reviews found";
+  if (!owner.numReviews) owner.numReviews = "New";
 
   findAvg(owner);
 

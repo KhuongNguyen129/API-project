@@ -1,0 +1,84 @@
+.form-container {
+    margin: 0px 250px
+
+}
+form, .city, .state {
+    display: flex;
+    flex-direction: column;
+}
+
+form {
+    gap: 5px
+}
+.city-state {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 8px;
+    justify-content: space-between;
+}
+.state {
+    padding: 0px;
+}
+.err {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.err > p {
+    font-size: 15px;
+    margin: 0px;
+    color: red;
+}
+
+.err-message {
+    font-size: 15px;
+    color: Red;
+
+    margin: 5px 0px 0px 0px;
+    
+}
+
+.paragraph {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid black;
+}
+
+.paragraph > label {
+    font-size: 20px;
+}
+
+p {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.create-from-button {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.create-from-button > button {
+    padding: 5px;
+    color: white;
+    background-color: red;
+    width: fit-content;
+    box-shadow: 1px 2px 4px black;
+}
+
+.price{
+    display: flex;
+    gap: 10px
+}
+
+.price > input {
+    width: 100%;
+    display: flex;
+    gap: 10px
+}

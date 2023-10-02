@@ -38,13 +38,15 @@ const CreateSpot = () => {
     if (title && title.length > 49)
       errorsObj.title = "Name needs a maximum of 50 characters";
     if (!price) errorsObj.price = "Price is required";
+    if (!previewImg) errorsObj.previewImg = "Preview image is required";
     if (
       previewImg &&
       !previewImg.endsWith(".jpg") &&
       !previewImg.endsWith(".jpeg") &&
       !previewImg.endsWith(".png")
     )
-      errorsObj.previewImg = "Preview image is required";
+      errorsObj.previewImg = "Preview image must end in .png, .jpg, or .jpeg";
+
     if (
       imgOne &&
       !imgOne.endsWith(".jpg") &&
@@ -130,6 +132,10 @@ const CreateSpot = () => {
   return (
     <div className="form-container">
       <h2>Create a new Spot</h2>
+      <label>Where's your place located?</label>
+      <p>
+        Guests will only get your exact address once they booked a reservation.
+      </p>
       <form onSubmit={handleSubmit}>
         <div className="first paragraph">
           <div className="err">
@@ -177,7 +183,7 @@ const CreateSpot = () => {
                 type="text"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
-                placeholder="STATE"
+                placeholder="State"
                 required
               />
             </div>
@@ -248,7 +254,6 @@ const CreateSpot = () => {
             value={imgOne}
             onChange={(e) => setImgOne(e.target.value)}
             placeholder="Image URL"
-            required
           />
           {submitForm && errors.imgOne && <p>{errors.imgOne}</p>}
 
@@ -257,7 +262,6 @@ const CreateSpot = () => {
             value={imgTwo}
             onChange={(e) => setImgTwo(e.target.value)}
             placeholder="Image URL"
-            required
           />
           {submitForm && errors.imgTwo && <p>{errors.imgTwo}</p>}
 
@@ -266,7 +270,6 @@ const CreateSpot = () => {
             value={imgThree}
             onChange={(e) => setImgThree(e.target.value)}
             placeholder="Image URL"
-            required
           />
           {submitForm && errors.imgThree && <p>{errors.imgThree}</p>}
 
@@ -275,7 +278,6 @@ const CreateSpot = () => {
             value={imgFour}
             onChange={(e) => setImgFour(e.target.value)}
             placeholder="Image URL"
-            required
           />
           {submitForm && errors.imgFour && <p>{errors.imgFour}</p>}
         </div>

@@ -52,7 +52,7 @@ function ReviewForm({ spot }) {
       <textarea
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        placeholder="Leave your review here"
+        placeholder="Leave your review here..."
       />
       <p>{submit && errors.description}</p>
       <div className="stars">
@@ -107,7 +107,12 @@ function ReviewForm({ spot }) {
           onClick={() => setStarRating(5)}
         />
       </div>
-      <button>Submit Review</button>
+      <div>
+        <p>Stars</p>
+      </div>
+      <button disabled={!starRating} type="submit" onClick={handleSubmit}>
+        Submit Your Review
+      </button>
     </form>
   );
 }

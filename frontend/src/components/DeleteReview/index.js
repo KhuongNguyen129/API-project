@@ -28,8 +28,12 @@ export default function DeleteReview({ review, spot }) {
         <div>
           <h1>Confirm Delete</h1>
           <h2>Are you sure you want to delete this review?</h2>
-          <button onClick={handleSubmit}>Yes (Delete Spot)</button>
-          <button onClick={closeTheModal}>No (Keep Spot)</button>
+          <button id="delete-spot" onClick={handleSubmit}>
+            Yes (Delete Review)
+          </button>
+          <button id="delete-spot-2" onClick={closeTheModal}>
+            No (Keep Review)
+          </button>
         </div>
       )}
     </>

@@ -10,9 +10,9 @@ function SpotDetails() {
   const dispatch = useDispatch();
   const spot = useSelector((state) => state.spots.oneSpot);
   const reviews = useSelector((state) => state.reviews.Reviews);
-  console.log("SPOT ONE SPOT", spot);
-  const spotArr = Object.values(spot);
-  console.log("SPOT ONE SPOT ARRAY", spotArr);
+  // console.log("SPOT ONE SPOT", spot);
+  // const spotArr = Object.values(spot);
+  // console.log("SPOT ONE SPOT ARRAY", spotArr);
   // console.log("reviews5456456", reviews);
   const { spotId } = useParams();
   // console.log(".........", spotId);

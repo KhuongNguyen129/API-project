@@ -57,7 +57,9 @@ function SpotDetails() {
       <div id="callout-box">
         <div className="host-detail">
           Hosted by {spot?.Owner?.firstName} {spot?.Owner?.lastName}
-          <div>{spot.description}</div>
+          <div>
+            <p>{spot.description}</p>
+          </div>
         </div>
         <div className="rating-price-button">
           <div className="rating-price">
@@ -65,18 +67,29 @@ function SpotDetails() {
               <div className="price">
                 <p>${spot.price} night</p>
               </div>
-              <i className="fa-solid fa-star"></i>
-              {!spot.avgRating || isNaN(spot.avgRating)
-                ? "New"
-                : parseFloat(spot.avgRating).toFixed(2)}
+              <div className="right-side-callout">
+                <i className="fa-solid fa-star"></i>
+                {!spot.avgRating || isNaN(spot.avgRating)
+                  ? "New"
+                  : parseFloat(spot.avgRating).toFixed(2)}
+                {" · "}
+                {spot.numReviews ? `${spot.numReviews} reviews` : null}
+              </div>
             </div>
           </div>
-          <button className="reserve-button" onClick={handleClick}>
-            Reserve
-          </button>
+          <div id="reserve-button-div">
+            <button className="reserve-button" onClick={handleClick}>
+              Reserve
+            </button>
+          </div>
         </div>
       </div>
       <p className="numReviews">
+        <i className="fa-solid fa-star"></i>
+        {!spot.avgRating || isNaN(spot.avgRating)
+          ? "New"
+          : parseFloat(spot.avgRating).toFixed(2)}
+        {" · "}
         {spot.numReviews ? `${spot.numReviews} review` : <p> </p>}
       </p>
       <div>

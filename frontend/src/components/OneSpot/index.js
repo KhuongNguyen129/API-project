@@ -8,19 +8,30 @@ import "./oneSpot.css";
 
 function SpotDetails() {
   const dispatch = useDispatch();
-  const spot = useSelector((state) => state.spots.oneSpot);
+  const { spotId } = useParams();
+  const spot = useSelector((state) => state.spots.allSpots[spotId]);
+  // console.log(spot);
   const reviews = useSelector((state) => state.reviews.Reviews);
+  const user = useSelector((state) => state.session.user);
+  // console.log("USER>>>>>>>>>>>>>     ", user);
+
+  const reviewsArr = Object.values(reviews);
+
+  // let userReview;
+  // if (user) {
+  //   userReview = reviewsArr.find((review) => review.User.id === user.id);
+  // }
+  // console.log("USERREVIEW", userReview);
   // console.log("SPOT ONE SPOT", spot);
   // const spotArr = Object.values(spot);
   // console.log("SPOT ONE SPOT ARRAY", spotArr);
   // console.log("reviews5456456", reviews);
-  const { spotId } = useParams();
   // console.log(".........", spotId);
 
   useEffect(() => {
     dispatch(getOneSpotThunk(spotId));
     dispatch(getReviewsThunk(spotId));
-  }, [dispatch, spotId]);
+  }, [dispatch, spotId, reviewsArr.length]);
 
   let imageCounter = 1;
 
@@ -47,12 +58,7 @@ function SpotDetails() {
       <div className="image-list">
         {spot.SpotImages &&
           spot.SpotImages.map((image) => (
-            <img
-              key={image.id}
-              src={image.url}
-              alt="main img"
-              className={`image${imageCounter++}`}
-            />
+            <img src={image.url} className={`image${imageCounter++}`} />
           ))}
       </div>
 
@@ -65,18 +71,17 @@ function SpotDetails() {
         </div>
         <div className="rating-price-button">
           <div className="rating-price">
-            <div className="ratings">
-              <div className="price">
-                <p>${spot.price} night</p>
-              </div>
-              <div className="right-side-callout">
-                <i className="fa-solid fa-star"></i>
-                {!spot.avgRating || isNaN(spot.avgRating)
-                  ? "New"
-                  : parseFloat(spot.avgRating).toFixed(2)}
-                {" · "}
-                {spot.numReviews ? `${spot.numReviews} reviews` : null}
-              </div>
+            <div className="price">
+              <p>${spot.price}</p>
+              <span>night</span>
+            </div>
+            <div className="right-side-callout">
+              <i className="fa-solid fa-star"></i>
+              {!spot.avgRating || isNaN(spot.avgRating)
+                ? "New"
+                : parseFloat(spot.avgRating).toFixed(2)}
+              {" · "}
+              {spot.numReviews ? `${spot.numReviews} reviews` : null}
             </div>
           </div>
           <div id="reserve-button-div">
@@ -87,13 +92,14 @@ function SpotDetails() {
         </div>
       </div>
       <p className="numReviews">
-        {/* {spot.numReviews ? `${spot.numReviews} review` : <p> </p>} */}
+        <i className="fa-solid fa-star"></i>
         {!spot.avgRating || isNaN(spot.avgRating)
           ? "New"
           : parseFloat(spot.avgRating).toFixed(2)}
         {" · "}
         {spot.numReviews ? `${spot.numReviews} reviews` : null}
       </p>
+      <ReviewModal spot={spot} />
       <div>
         {Object.values(reviews)
           .toReversed()
@@ -102,10 +108,11 @@ function SpotDetails() {
               <div>{review.User?.firstName}</div>
               <div>{review.createdAt?.substring(0, 7)}</div>
               <p>{review.review}</p>
+              {/* <h1>{review.id}</h1> */}
+              {/* {review.id !== user.id ? <ReviewModal spot={spot} /> : null} */}
             </>
           ))}
       </div>
-      <ReviewModal spot={spot} />
     </div>
   );
 }

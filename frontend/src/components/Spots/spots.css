@@ -8,7 +8,7 @@
     justify-items: center;
 }
 
-.img img {
+.img > img {
     margin: 0px;
     height: 200px;
     width: 100%;
@@ -18,6 +18,19 @@
 .details-container {
     display: flex;
     justify-content: space-between;
+}
+
+.spot-detail {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.732)
+}
+
+.city-State {
+    font-weight: bold;
+}
+
+.fa-star {
+    color: #dca469
 }
 
 .city-State, .price, .ratings-stars {

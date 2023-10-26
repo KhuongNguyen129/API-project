@@ -11,6 +11,10 @@ function LoginFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
+  const checkValidation = () => {
+    return credential.length > 3 && password.length > 5;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
@@ -62,7 +66,11 @@ function LoginFormModal() {
           />
         </label>
         {errors.credential && <p>{errors.credential}</p>}
-        <button className="lable login" type="submit">
+        <button
+          className="lable login redButton"
+          type="submit"
+          disabled={!checkValidation()}
+        >
           Log In
         </button>
         <button

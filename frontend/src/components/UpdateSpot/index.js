@@ -5,7 +5,7 @@ import { updateSpotThunk, getOneSpotThunk } from "../../store/spots";
 
 export default function UpdateSpot() {
   const { spotId } = useParams();
-  const spot = useSelector((state) => state.spots.oneSpot);
+  const spot = useSelector((state) => state.spots.allSpots[spotId]);
   const dispatch = useDispatch();
   const history = useHistory();
   //   console.log("Spot>>>>>>>     ", spot);

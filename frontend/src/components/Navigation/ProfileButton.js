@@ -41,7 +41,7 @@ function ProfileButton({ user }) {
     history.push("/");
   };
 
-  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+  const ulClassName = "profile-dropdown" + (showMenu ? " log" : " hidden");
 
   return (
     <>
@@ -52,7 +52,6 @@ function ProfileButton({ user }) {
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>{user.username}</li>
             <li>Hello, {user.firstName}</li>
             <li>{user.email}</li>
             <li>

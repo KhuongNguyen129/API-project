@@ -7,8 +7,25 @@
     width: 100%;
 }
 
-.signup-button {
-    padding: 10px 0px;
+.redButton {
+    border: none;
+    padding: 7px 0px;
     color: white;
     background-color: rgb(235, 99, 99);
+}
+
+.all-delete> button {
+    padding: 7px 15px;
+    border-radius: 3px;
+    box-shadow: 1px 2px 4px black;
+    border: none;
+    color: white;
+    background-color: rgb(235, 99, 99);
+}
+
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
 }

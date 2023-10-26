@@ -44,7 +44,7 @@ export const createReviewThunk = (review, spotId) => async (dispatch) => {
       body: JSON.stringify(review),
     });
     const newReview = await res.json();
-    // dispatch(createReview(newReview));
+    dispatch(createReview(newReview));
     await dispatch(getReviewsThunk(spotId));
     return newReview;
   } catch (e) {
@@ -85,7 +85,6 @@ const reviewsReducer = (state = initialState, action) => {
       newState = {
         ...state,
         Reviews: { ...state.Reviews },
-        User: { ...state.User },
       };
       newState.Reviews[action.newReview.id] = action.newReview;
       return newState;
@@ -93,7 +92,6 @@ const reviewsReducer = (state = initialState, action) => {
       newState = {
         ...state,
         Reviews: { ...state.Reviews },
-        User: { ...state.User },
       };
       delete newState.Reviews[action.reviewId];
       return newState;

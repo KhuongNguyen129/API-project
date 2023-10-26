@@ -26,7 +26,7 @@ export default function ManageSpots() {
 
   return (
     <>
-      <h1>Manage Your Spots</h1>
+      <h1 className="manage-title">Manage Your Spots</h1>
       <div className="spots-container">
         {userSpots.map((spot) => (
           <div id="spot-map-container">
@@ -50,13 +50,17 @@ export default function ManageSpots() {
                 <div className="buttons"></div>
               </div>
             </NavLink>
-            <NavLink to={`/spots/${spot.id}/edit`}>
-              <button>Update</button>
-            </NavLink>
-            <OpenModalButton
-              buttonText="Delete"
-              modalComponent={<DeleteSpot spot={spot} />}
-            />
+            <div className="update-delete">
+              <NavLink to={`/spots/${spot.id}/edit`}>
+                <button>Update</button>
+              </NavLink>
+              <div className="all-delete">
+                <OpenModalButton
+                  buttonText="Delete"
+                  modalComponent={<DeleteSpot spot={spot} />}
+                />
+              </div>
+            </div>
           </div>
         ))}
       </div>

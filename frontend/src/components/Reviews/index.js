@@ -13,7 +13,7 @@ export default function ReviewModal({ spot }) {
 
   const user = useSelector((state) => state.session.user);
   //   console.log("USER>>>>>>>:   ", user.id);
-  const currentSpot = useSelector((state) => state.spots.oneSpot);
+  // const currentSpot = useSelector((state) => state.spots.oneSpot);
   //   console.log("CURRENTSPOT>>>>>>>:   ", currentSpot);
 
   //   const spotOwner = useSelector((state) => state.spots.oneSpot.ownerId);
@@ -23,7 +23,7 @@ export default function ReviewModal({ spot }) {
   //   console.log("spotReviews>>>>>>>:   ", spotReviews);
 
   const currentSpotReviews = Object.values(spotReviews);
-  //   console.log("currentSpotReviews>>>>>>>:   ", currentSpotReviews);
+  console.log("currentSpotReviews>>>>>>>:   ", currentSpotReviews);
 
   //   console.log("currReview>>>>>>>:   ", currReview);
 
@@ -39,8 +39,9 @@ export default function ReviewModal({ spot }) {
   return (
     <>
       <div>
-        {user?.id && user?.id !== currentSpot?.Owner?.id && !currReview ? (
+        {user?.id && user?.id !== spot?.Owner?.id && !currReview ? (
           <button
+            className="postReview"
             type="submit"
             onClick={() => {
               setModalContent(<ReviewForm spot={spot} />);
@@ -52,10 +53,12 @@ export default function ReviewModal({ spot }) {
       </div>
       <div>
         {user?.id === currReview?.userId ? (
-          <OpenModalButton
-            buttonText="Delete Review"
-            modalComponent={<DeleteReview review={currReview} spot={spot} />}
-          />
+          <div className="all-delete">
+            <OpenModalButton
+              buttonText="Delete Review"
+              modalComponent={<DeleteReview review={currReview} spot={spot} />}
+            />
+          </div>
         ) : null}
       </div>
     </>

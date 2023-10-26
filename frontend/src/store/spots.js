@@ -136,12 +136,10 @@ export const deleteSpotThunk = (spotId) => async (dispatch) => {
 
 const initialState = {
   allSpots: {},
-  oneSpot: {},
 };
 
 const spotsReducer = (state = initialState, action) => {
   let newState;
-  const stateAllSpots = { ...state.allSpots };
   switch (action.type) {
     case GET_SPOTS:
       newState = { ...state, allSpots: {} };
@@ -150,25 +148,37 @@ const spotsReducer = (state = initialState, action) => {
       });
       return newState;
     case GET_ONE_SPOT:
-      newState = { ...state, oneSpot: action.spot };
+      newState = {
+        ...state,
+        allSpots: {
+          ...state.allSpots,
+          [action.spot.id]: action.spot,
+        },
+      };
       return newState;
     case CREATE_SPOT:
       return {
         ...state,
-        oneSpot: action.spot,
-        allSpots: stateAllSpots,
+        allSpots: {
+          ...state.allSpots,
+          [action.newSpot.id]: action.newSpot,
+        },
       };
+
     case UPDATE_SPOT:
       return {
         ...state,
-        oneSpot: action.spot,
-        allSpots: stateAllSpots,
+        allSpots: {
+          ...state.allSpots,
+          [action.spot.id]: action.spot,
+        },
       };
     case DELETE_SPOT:
-      delete stateAllSpots[action.spotId];
+      const allSpotsCopy = { ...state.allSpots };
+      delete allSpotsCopy[action.spotId];
       return {
         ...state,
-        allSpots: stateAllSpots,
+        allSpots: allSpotsCopy,
       };
     default:
       return state;

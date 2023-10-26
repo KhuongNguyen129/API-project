@@ -110,11 +110,6 @@ module.exports = {
           url: "https://a0.muscache.com/im/pictures/prohost-api/Hosting-552889544808307445/original/81d1590b-731d-40c3-a118-1d255a9c3c78.jpeg?im_w=1440",
           preview: false,
         },
-        {
-          spotId: 4,
-          url: "https://a0.muscache.com/im/pictures/prohost-api/Hosting-552889544808307445/original/d9049c0c-5d0f-4d53-8583-2ce1088a522c.jpeg?im_w=1440",
-          preview: false,
-        },
       ],
       { validate: true }
     );

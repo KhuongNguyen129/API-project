@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useModal } from "../../context/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { createReviewThunk, getReviewsThunk } from "../../store/reviews";
-import { getOneSpotThunk } from "../../store/spots";
+import { createReviewThunk } from "../../store/reviews";
 
 function ReviewForm({ spot }) {
   const [description, setDescription] = useState("");
@@ -14,6 +13,10 @@ function ReviewForm({ spot }) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
   const user = useSelector((state) => state.session.user);
+
+  const checkValidation = () => {
+    return description.length > 9 && starRating;
+  };
 
   useEffect(() => {
     let errObj = {};
@@ -110,7 +113,11 @@ function ReviewForm({ spot }) {
       <div>
         <p>Stars</p>
       </div>
-      <button disabled={!starRating} type="submit" onClick={handleSubmit}>
+      <button
+        type="submit"
+        onClick={handleSubmit}
+        disabled={!checkValidation()}
+      >
         Submit Your Review
       </button>
     </form>

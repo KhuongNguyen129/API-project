@@ -1,3 +1,7 @@
+/* * {
+    background-color: gainsboro ;
+} */
+
 .form-container {
     margin: 0px 250px
 
@@ -55,7 +59,7 @@ form {
 
 p {
     margin-top: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 5px; 
 }
 
 .create-from-button {
@@ -65,6 +69,8 @@ p {
 }
 
 .create-from-button > button {
+    border-radius: 3px;
+    border: none;
     padding: 5px;
     color: white;
     background-color: red;
@@ -74,7 +80,7 @@ p {
 
 .price{
     display: flex;
-    gap: 10px
+    gap: 5px
 }
 
 .price > input {

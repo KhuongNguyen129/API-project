@@ -15,31 +15,45 @@ function SignupFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
+  const checkValidation = () => {
+    return (
+      email &&
+      username.length > 3 &&
+      firstName &&
+      lastName &&
+      password.length > 5 &&
+      confirmPassword
+    );
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
       setErrors({});
-      return dispatch(
-        sessionActions.signup({
-          email,
-          username,
-          firstName,
-          lastName,
-          password,
-        })
-      )
-        .then(closeModal)
-        .catch(async (res) => {
-          const data = await res.json();
-          if (data && data.errors) {
-            setErrors(data.errors);
-          }
+      if (checkValidation) {
+        return dispatch(
+          sessionActions.signup({
+            email,
+            username,
+            firstName,
+            lastName,
+            password,
+          })
+        )
+          .then(closeModal)
+          .catch(async (res) => {
+            const data = await res.json();
+            if (data && data.errors) {
+              setErrors(data.errors);
+            }
+          });
+      } else {
+        return setErrors({
+          confirmPassword:
+            "Confirm Password field must be the same as the Password field",
         });
+      }
     }
-    return setErrors({
-      confirmPassword:
-        "Confirm Password field must be the same as the Password field",
-    });
   };
 
   return (
@@ -106,7 +120,11 @@ function SignupFormModal() {
           />
         </label>
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-        <button className="signup-button" type="submit">
+        <button
+          className="signup-button redButton"
+          type="submit"
+          disabled={!checkValidation()}
+        >
           Sign Up
         </button>
       </form>

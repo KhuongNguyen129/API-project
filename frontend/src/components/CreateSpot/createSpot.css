@@ -19,6 +19,11 @@ form {
     grid-template-columns: 2fr 1fr;
     gap: 8px;
     justify-content: space-between;
+    margin-bottom: 7px;
+}
+.city-State {
+  
+    margin-bottom: 7px;
 }
 .state {
     padding: 0px;
@@ -58,8 +63,7 @@ form {
 }
 
 p {
-    margin-top: 10px;
-    margin-bottom: 5px; 
+    margin-top: 0px
 }
 
 .create-from-button {

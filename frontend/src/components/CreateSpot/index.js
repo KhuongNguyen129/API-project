@@ -197,7 +197,7 @@ const CreateSpot = () => {
           <label>Describe your place to guests</label>
           <p>
             Mention the best features of your space, any special amentities like
-            fast wif or parking, and what you love about the neighborhood.
+            fast wifi or parking, and what you love about the neighborhood.
           </p>
           <textarea
             value={description}

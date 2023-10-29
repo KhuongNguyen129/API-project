@@ -13,10 +13,12 @@
     justify-content: center;
     gap: 30px;
     border-bottom: 1px solid black;
+    padding: 20px 0px;
 }
+
 .host-detail {
     font-size: 20px;
-
+    width: 500px;
 }
 
 .host-detail > div > p {
@@ -50,7 +52,7 @@
   text-align: center;
   border-radius: 8px;
   height: 85px;
-  width: 100%;
+  width: 300px;
    
 }
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Redirect } from "react-router-dom";
 import { getSpotsThunk } from "../../store/spots";
@@ -11,11 +11,13 @@ export default function ManageSpots() {
   const user = useSelector((state) => state.session.user);
   //   console.log("USER.........: ", user);
   const spots = useSelector((state) => state.spots.allSpots);
+  useEffect(() => {
+    dispatch(getSpotsThunk());
+  }, []);
 
   //   console.log("SPOT>>>>>>>: ", spots);
   const spotArr = Object.values(spots);
   if (!spotArr || !spotArr.length) {
-    dispatch(getSpotsThunk());
     return null;
   }
   if (!user) {

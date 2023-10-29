@@ -8,11 +8,15 @@
     justify-items: center;
 }
 
+.manage-title {
+    padding-left: 80px;
+}
+
 .spot img {
     margin: 0px;
     height: 200px;
     width: 100%;
-    border-radius: 15%; 
+    border-radius: 10%; 
 } 
 
 .details-container {
@@ -29,12 +33,33 @@
     gap:10px
 }
 
-.buttons button {
-    background-color: grey;
-    color: white;
-    box-shadow: 2px 1px 1px black;
+
+.update-delete {
+    display: flex;
+    gap: 8px;
 }
+
+
 
 #spot-map-container {
     text-decoration: none;
+}
+
+.update-delete > a > button {
+    padding: 7px 15px;
+    border-radius: 3px;
+    box-shadow: 1px 2px 4px black;
+    border: none;
+    color: white;
+    background-color: rgb(139, 92, 92);
+}
+
+.postReview {
+    padding: 10px 50px;
+    margin-bottom: 15px;
+    border-radius: 3px;
+    box-shadow: 1px 2px 4px black;
+    border: none;
+    color: white;
+    background-color: rgb(139, 92, 92);
 }

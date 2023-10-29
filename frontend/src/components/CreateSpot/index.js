@@ -124,6 +124,8 @@ const CreateSpot = () => {
         await dispatch(createImageThunk(imgThree, false, res.id));
         await dispatch(createImageThunk(imgFour, false, res.id));
         history.push(`/spots/${res.id}`);
+      } else {
+        console.log("Errors from creating spot: ", res.errors);
       }
       setSubmitForm(false);
     }
@@ -140,51 +142,53 @@ const CreateSpot = () => {
         <div className="first paragraph">
           <div className="err">
             <label>Country</label>
-            {errors.country && <p>{errors.country}</p>}
+            {submitForm && errors.country && <p>{errors.country}</p>}
           </div>
           <input
             type="text"
             value={country}
             onChange={(e) => setCountry(e.target.value)}
             placeholder="Country"
-            required
+            // required
           />
           <div className="err">
             <label>Street Address</label>
-            {errors.streetAddress && <p>{errors.streetAddress}</p>}
+            {submitForm && errors.streetAddress && (
+              <p>{errors.streetAddress}</p>
+            )}
           </div>
           <input
             type="text"
             value={streetAddress}
             onChange={(e) => setStreetAddress(e.target.value)}
             placeholder="Address"
-            required
+            // required
           />
           <div className="city-state">
             <div className="city">
               <div className="err">
                 <label>City</label>
-                {errors.city && <p>{errors.city}</p>}
+                {submitForm && errors.city && <p>{errors.city}</p>}
               </div>
               <input
                 type="text"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="City"
-                required
+                // required
               />
             </div>
             <div className="state">
               <div className="err">
                 <label>State</label>
-                {errors.state && <p>{errors.state}</p>}
+                {submitForm && errors.state && <p>{errors.state}</p>}
               </div>
               <input
                 type="text"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
                 placeholder="State"
-                required
+                // required
               />
             </div>
           </div>
@@ -193,15 +197,15 @@ const CreateSpot = () => {
           <label>Describe your place to guests</label>
           <p>
             Mention the best features of your space, any special amentities like
-            fast wif or parking, and what you love about the neighborhood.
+            fast wifi or parking, and what you love about the neighborhood.
           </p>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Description"
-            required
+            // required
           />
-          {errors.description && (
+          {submitForm && errors.description && (
             <p className="err-message">{errors.description}</p>
           )}
         </div>
@@ -216,9 +220,11 @@ const CreateSpot = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Name of your spot"
-            required
+            // required
           />
-          {errors.title && <p className="err-message">{errors.title}</p>}
+          {submitForm && errors.title && (
+            <p className="err-message">{errors.title}</p>
+          )}
         </div>
         <div className="fouth paragraph">
           <label>Set a base price for your spot</label>
@@ -233,10 +239,12 @@ const CreateSpot = () => {
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               placeholder="Price per night (USD)"
-              required
+              // required
             />
           </div>
-          {errors.price && <p className="err-message">{errors.price}</p>}
+          {submitForm && errors.price && (
+            <p className="err-message">{errors.price}</p>
+          )}
         </div>
         <div className="fifth paragraph">
           <label>Liven up your spot with photos</label>
@@ -246,7 +254,7 @@ const CreateSpot = () => {
             value={previewImg}
             onChange={(e) => setPreviewImg(e.target.value)}
             placeholder="Preview Image URL"
-            required
+            // required
           />
           {submitForm && errors.previewImg && <p>{errors.previewImg}</p>}
           <input

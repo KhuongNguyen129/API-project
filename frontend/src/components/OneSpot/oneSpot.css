@@ -6,26 +6,19 @@
     font-size: 30px;
 }
 
-.image-list img {
-    margin: 0px;
-    height: 200px;
-    width: 400px;
-
-
-}
 #callout-box {
-    /* border: 2px dashed black; */
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    gap: 30px;
+    border-bottom: 1px solid black;
+    padding: 20px 0px;
 }
+
 .host-detail {
     font-size: 20px;
-    /* border: 2px solid red; */
-    /* width: 50%; */
-    /* display: flex;
-    justify-content: space-between; */
+    width: 500px;
 }
 
 .host-detail > div > p {
@@ -36,54 +29,66 @@
     padding: 15px 0px
 }
 
+.rating-price {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
 .price > p {
-    font-size: 14px;
-
-}
-
-.ratings > .right-side-callout {
-    /* border: 4x solid purple; */
+    font-size: 16px;
+    margin: 0px;
+    font-weight: bold;
 }
 
 
+.right-side-callout > i{
+  margin-right: 5px;
+}
 
 .rating-price-button {
-
-    background-color: rgb(208, 205, 205);
-    color: #fff;
-    text-align: center;
-    /* padding: 10px; */
-    border: 2px solid black;
-    border-radius: 8px;
-    height: 70px;
-    /* display: flex; */
-    /* justify-content: space-between; */
-    width: 70%;
+  box-shadow: 1px 1px 5px #a8a3a3;
+  padding: 15px 20px;
+  text-align: center;
+  border-radius: 8px;
+  height: 85px;
+  width: 300px;
    
 }
 
-#reserve-button-div {
-    /* border: 4px dashed green; */
-    padding-top: 7px;
+.reserve-button {
+    width: 95%;
+    border-radius: 5px;
+    padding: 10px 0px;
+    background-color: rgb(244, 80, 80);
+    border: none;
+    color: white;
 }
 
-.ratings {
-    /* border: dashed 2px blue; */
-    justify-content: center;
-    display: flex;
-    height: 30px;
+.reserve-button:hover {
+  background-color: rgb(244, 66, 66);
+}
+
+.numReviews {
+  font-size: x-large;
+  font-family: sans-serif;
+}
+
+.numReviews > i {
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .image-list {
     display: grid;
-    grid-template-columns: 400px 300px 300px;
+    grid-template-columns: 2fr 1fr 1fr;
     grid-template-rows: 200px 200px;
     row-gap: 5px;
     column-gap: 5px;
-    margin: 30px;
+    margin: 10px 0px;
   }
   
-  .imageCounter1 {
+  .image1 {
     grid-column: 1;
     grid-row: 1 / span 2;
     width: 100%;
@@ -92,7 +97,7 @@
     border-radius: 5px;
   }
   
-  .imageCounter2 {
+  .image2 {
     grid-column: 2;
     grid-row: 1;
     width: 100%;
@@ -101,7 +106,7 @@
     border-radius: 5px;
   }
   
-  .imageCounter3 {
+  .image3 {
     grid-column: 3;
     grid-row: 1;
     width: 100%;
@@ -110,7 +115,7 @@
     border-radius: 5px;
   }
   
-  .imageCounter4 {
+  .image4 {
     grid-column: 2;
     grid-row: 2;
     width: 100%;
@@ -119,7 +124,7 @@
     border-radius: 5px;
   }
   
-  .imageCounter5 {
+  .image5 {
     grid-column: 3;
     grid-row: 2;
     width: 100%;

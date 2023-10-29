@@ -30,10 +30,16 @@ img {
 }
 
 .sign-button {
+    display: flex;
     border: rgb(208, 205, 205) solid 1px;
     padding: 5px 10px;
     border-radius: 20px;
     box-shadow: 2px 1px gray;;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+
+
 }
 
 li {
@@ -50,13 +56,46 @@ li {
 
 .create-spot {
     display: flex;
+    align-items: center;
 
 }
 
-.create-spot button {
+.NavLinkCreateSpot > button {
+   border: white;
+}
+
+.profile-dropdown {
+    /* border: 1px solid rgb(150, 148, 148); */
+    border-radius: 12px;
+    box-shadow: 1px 1px 5px gray;
+    background-color: white;
+    list-style: none;
+    padding: 20px;
+    position: absolute;
+
+  }
+
+.profile-dropdown > li > a > .manage-button {
+    padding: 7px 0px;
+    margin-bottom: 5px;
+    border: none;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.profile-dropdown > li > button {
     margin-right: 10px;
     border: rgb(208, 205, 205) solid 1px;
     padding: 5px 10px;
     border-radius: 20px;
     box-shadow: 2px 1px gray;;
+}
+
+.log > li:hover {
+    cursor: pointer;
+}
+
+.manage-button:hover {
+    cursor: pointer;
+    color: blue;
 }

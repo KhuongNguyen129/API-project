@@ -79,6 +79,7 @@
   margin-bottom: 10px;
 }
 
+
 .image-list {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;

@@ -49,8 +49,19 @@ const deleteSpot = (spotId) => {
 
 //THUNKS
 
-export const getSpotsThunk = () => async (dispatch) => {
-  const res = await csrfFetch("/api/spots");
+export const getSpotsThunk =
+  (page = 1) =>
+  async (dispatch) => {
+    const res = await csrfFetch(`/api/spots?page=${page}`);
+    if (res.ok) {
+      const spots = await res.json();
+      dispatch(getSpots(spots));
+      return spots;
+    }
+  };
+
+export const getCurrentSpotsThunk = () => async (dispatch) => {
+  const res = await csrfFetch("/api/spots/current");
   if (res.ok) {
     const spots = await res.json();
     dispatch(getSpots(spots));
@@ -142,7 +153,7 @@ const spotsReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
     case GET_SPOTS:
-      newState = { ...state, allSpots: {} };
+      newState = { ...state, allSpots: { ...state.allSpots } };
       action.spots.Spots.forEach((spot) => {
         newState.allSpots[spot.id] = spot;
       });

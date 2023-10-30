@@ -106,7 +106,7 @@ export default function ReviewModal({ spot }) {
             Post Your Review
           </button>
         ) : user && spot.Owner && user.id !== spot.Owner.id && currReview ? (
-          <div className="all-delete">
+          <div className="all-delete delete-review-button">
             <OpenModalButton
               buttonText="Delete Review"
               modalComponent={<DeleteReview review={currReview} spot={spot} />}

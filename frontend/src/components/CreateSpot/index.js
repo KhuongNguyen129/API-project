@@ -202,7 +202,7 @@ const CreateSpot = () => {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Description"
+            placeholder="Please write at least 30 characters"
             // required
           />
           {submitForm && errors.description && (

@@ -24,6 +24,10 @@
     background-color: rgb(235, 99, 99);
 }
 
+.delete-review-button {
+    margin-bottom: 15px;
+}
+
 button:disabled,
 button[disabled]{
   border: 1px solid #999999;

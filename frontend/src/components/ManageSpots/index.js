@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Redirect } from "react-router-dom";
-import { getSpotsThunk } from "../../store/spots";
+import { getCurrentSpotsThunk } from "../../store/spots";
 import DeleteSpot from "../DeleteSpot";
 import OpenModalButton from "../OpenModalButton";
 import "./manageSpots.css";
@@ -12,7 +12,7 @@ export default function ManageSpots() {
   //   console.log("USER.........: ", user);
   const spots = useSelector((state) => state.spots.allSpots);
   useEffect(() => {
-    dispatch(getSpotsThunk());
+    dispatch(getCurrentSpotsThunk());
   }, []);
 
   //   console.log("SPOT>>>>>>>: ", spots);

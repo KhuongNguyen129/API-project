@@ -9,9 +9,10 @@
 
 .redButton {
     border: none;
-    padding: 7px 0px;
+    padding: 7px 15px;
     color: white;
     background-color: rgb(235, 99, 99);
+    box-shadow: 1px 2px 4px black;
 }
 
 .all-delete> button {

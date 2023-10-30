@@ -114,6 +114,7 @@ function ReviewForm({ spot }) {
         <p>Stars</p>
       </div>
       <button
+        className="submit-review redButton"
         type="submit"
         onClick={handleSubmit}
         disabled={!checkValidation()}

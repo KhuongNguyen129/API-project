@@ -11,7 +11,7 @@ function generateSpots(count = 20) {
 
   for (let i = 0; i < count; i++) {
     const spot = {
-      ownerId: faker.number.int({ min: 1, max: 5 }),
+      ownerId: faker.number.int({ min: 1, max: 3 }),
       address: faker.location.streetAddress(),
       city: faker.location.city(),
       state: faker.location.state({ abbreviated: true }),

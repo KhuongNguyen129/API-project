@@ -272,7 +272,7 @@ module.exports = {
 
         {
           spotId: 11,
-          url: "http://partners-dynamic.bdxcdn.com/Images/Homes/BeazerHom/max1500_26188371-180208.jpg",
+          url: "https://media.rightmove.co.uk/264k/263750/139191437/263750_32557354_IMG_00_0000.png",
           preview: true,
         },
         {
